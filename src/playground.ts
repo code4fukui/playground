@@ -72,21 +72,21 @@ let INPUTS: {[name: string]: InputFeature} = {
 };
 
 let HIDABLE_CONTROLS = [
-  ["Show test data", "showTestData"],
-  ["Discretize output", "discretize"],
-  ["Play button", "playButton"],
-  ["Step button", "stepButton"],
-  ["Reset button", "resetButton"],
-  ["Learning rate", "learningRate"],
-  ["Activation", "activation"],
-  ["Regularization", "regularization"],
-  ["Regularization rate", "regularizationRate"],
-  ["Problem type", "problem"],
-  ["Which dataset", "dataset"],
-  ["Ratio train data", "percTrainData"],
-  ["Noise level", "noise"],
-  ["Batch size", "batchSize"],
-  ["# of hidden layers", "numHiddenLayers"],
+  ["☑ テストデータ表示", "showTestData"],
+  ["☑ 出力の離散化", "discretize"],
+  ["再生 ボタン", "playButton"],
+  ["ステップ ボタン", "stepButton"],
+  ["リセット ボタン", "resetButton"],
+  ["学習率", "learningRate"],
+  ["活性化関数", "activation"],
+  ["正則化", "regularization"],
+  ["正則化率", "regularizationRate"],
+  ["問題種別", "problem"],
+  ["データセットの選択", "dataset"],
+  ["訓練データの割合", "percTrainData"],
+  ["ノイズ レベル", "noise"],
+  ["バッチ サイズ", "batchSize"],
+  ["隠れ層 ⊕⊖ ボタン", "numHiddenLayers"]
 ];
 
 class Player {
@@ -733,7 +733,7 @@ function updateHoverCard(type: HoverType, nodeOrLink?: nn.Node | nn.Link,
   let value = (type === HoverType.WEIGHT) ?
     (nodeOrLink as nn.Link).weight :
     (nodeOrLink as nn.Node).bias;
-  let name = (type === HoverType.WEIGHT) ? "Weight" : "Bias";
+  let name = (type === HoverType.WEIGHT) ? "重み" : "バイアス";
   hovercard.style({
     "left": `${coordinates[0] + 20}px`,
     "top": `${coordinates[1]}px`,
@@ -944,8 +944,8 @@ function reset(onStartup=false) {
   }
   player.pause();
 
-  let suffix = state.numHiddenLayers !== 1 ? "s" : "";
-  d3.select("#layers-label").text("Hidden layer" + suffix);
+  let suffix = state.numHiddenLayers !== 1 ? "" : "";
+  d3.select("#layers-label").text("隠れ層" + suffix);
   d3.select("#num-layers").text(state.numHiddenLayers);
 
   // Make a simple network.
