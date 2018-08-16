@@ -1,10 +1,10 @@
-# Deep playground
+# Deep Insider: A Neural Network Playground
 
-Deep playground is an interactive visualization of neural networks, written in
+[This playground][playground page] is an interactive visualization of neural networks, written in
 TypeScript using d3.js. We use GitHub issues for tracking new requests and bugs.
 Your feedback is highly appreciated!
 
-**If you'd like to contribute, be sure to review the [contribution guidelines](CONTRIBUTING.md).**
+**If you'd like to contribute to original repository [tensorflow/playground (Deep playground)][original page], be sure to review the [contribution guidelines](CONTRIBUTING.md).**
 
 ## Development
 
@@ -21,3 +21,16 @@ HTML and CSS files whenever they change.
 To push to production: `git subtree push --prefix dist origin gh-pages`.
 
 This is not an official Google product.
+
+##License
+
+Copyright 2018 Digital Advantage Inc. All Rights Reserved.
+Licensed under the Apache License, Version 2.0.
+
+### The licenses of using open-source code
+
+This project is forked from [tensorflow/playground (Deep playground)][original page].  
+Licensed under the Apache License, Version 2.0.
+
+[playground page]: https://deepinsider.github.io/playground/
+[original page]: https://github.com/tensorflow/playground
