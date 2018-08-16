@@ -944,8 +944,9 @@ function reset(onStartup=false) {
   }
   player.pause();
 
-  let suffix = state.numHiddenLayers !== 1 ? "" : "";
-  d3.select("#layers-label").text("隠れ層" + suffix);
+  //let suffix = state.numHiddenLayers !== 1 ? "s" : "";
+  //d3.select("#layers-label").text("隠れ層" + suffix);
+  d3.select("#layers-label").text("隠れ層");
   d3.select("#num-layers").text(state.numHiddenLayers);
 
   // Make a simple network.
