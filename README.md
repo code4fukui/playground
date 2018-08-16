@@ -22,7 +22,7 @@ To push to production: `git subtree push --prefix dist origin gh-pages`.
 
 This is not an official Google product.
 
-##License
+## License
 
 Copyright 2018 Digital Advantage Inc. All Rights Reserved.
 Licensed under the Apache License, Version 2.0.
