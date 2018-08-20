@@ -835,6 +835,14 @@ g.train circle {
   line-height: 1.7em;
 }
 
+#main-part .output .mdl-checkbox {
+  width: auto;
+  padding-right: 10px;
+}
+#main-part .output .mdl-checkbox.is-upgraded {
+  padding-left: 20px;
+}
+
 /* Article */
 
 article {
