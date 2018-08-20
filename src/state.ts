@@ -115,7 +115,7 @@ export class State {
     {name: "networkShape", type: Type.ARRAY_NUMBER},
     {name: "seed", type: Type.STRING},
     {name: "showTrainData", type: Type.BOOLEAN},
-    {name: "showValidaiotnData", type: Type.BOOLEAN},
+    {name: "showValidationData", type: Type.BOOLEAN},
     {name: "showTestData", type: Type.BOOLEAN},
     {name: "discretize", type: Type.BOOLEAN},
     {name: "percTrainData", type: Type.NUMBER},
