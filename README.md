@@ -30,6 +30,7 @@ Licensed under the Apache License, Version 2.0.
 ### The licenses of using open-source code
 
 This project is forked from [tensorflow/playground (Deep playground)][original page].  
+Copyright 2016 Google Inc. All Rights Reserved.  
 Licensed under the Apache License, Version 2.0.
 
 [playground page]: https://deepinsider.github.io/playground/
