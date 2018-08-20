@@ -805,7 +805,7 @@ g.column rect {
   color: #777;
 }
 
-#loss-test {
+#loss-validation {
   color: black;
 }
 
@@ -824,9 +824,16 @@ g.train circle {
   fill-opacity: 0.9;
 }
 
- g.test circle {
+g.validation circle {
   stroke-width: 1;
   stroke: black;
+  stroke-opacity: 0.6;
+  fill-opacity: 0.9;
+}
+
+ g.test circle {
+  stroke-width: 1;
+  stroke: #550000;
   stroke-opacity: 0.6;
   fill-opacity: 0.9;
 }

@@ -110,6 +110,7 @@ export class HeatMap {
         .attr("transform", `translate(${padding},${padding})`);
 
       this.svg.append("g").attr("class", "train");
+      this.svg.append("g").attr("class", "validation");
       this.svg.append("g").attr("class", "test");
     }
 
@@ -134,6 +135,20 @@ export class HeatMap {
     }
   }
 
+  updateTrainPoints(points: Example2D[]): void {
+    if (this.settings.noSvg) {
+      throw Error("Can't add points since noSvg=true");
+    }
+    this.updateCircles(this.svg.select("g.train"), points);
+  }
+
+  updateValidationPoints(points: Example2D[]): void {
+    if (this.settings.noSvg) {
+      throw Error("Can't add points since noSvg=true");
+    }
+    this.updateCircles(this.svg.select("g.validation"), points);
+  }
+
   updateTestPoints(points: Example2D[]): void {
     if (this.settings.noSvg) {
       throw Error("Can't add points since noSvg=true");
@@ -141,12 +156,6 @@ export class HeatMap {
     this.updateCircles(this.svg.select("g.test"), points);
   }
 
-  updatePoints(points: Example2D[]): void {
-    if (this.settings.noSvg) {
-      throw Error("Can't add points since noSvg=true");
-    }
-    this.updateCircles(this.svg.select("g.train"), points);
-  }
 
   updateBackground(data: number[][], discretize: boolean): void {
     let dx = data[0].length;

@@ -72,6 +72,8 @@ let INPUTS: {[name: string]: InputFeature} = {
 };
 
 let HIDABLE_CONTROLS = [
+  ["☑ 訓練データ表示", "showTrainData"],
+  ["☑ 精度検証データ表示", "showValidationData"],
   ["☑ テストデータ表示", "showTestData"],
   ["☑ 出力の離散化", "discretize"],
   ["再生 ボタン", "playButton"],
@@ -166,10 +168,11 @@ let colorScale = d3.scale.linear<string>()
                      .clamp(true);
 let iter = 0;
 let trainData: Example2D[] = [];
+let validationData: Example2D[] = [];
 let testData: Example2D[] = [];
 let network: nn.Node[][] = null;
 let lossTrain = 0;
-let lossTest = 0;
+let lossValidation = 0;
 let player = new Player();
 let lineChart = new AppendingLineChart(d3.select("#linechart"),
     ["#777", "black"]);
@@ -262,6 +265,24 @@ function makeGUI() {
     parametersChanged = true;
     reset();
   });
+
+  let showTrainData = d3.select("#show-train-data").on("change", function() {
+    state.showTrainData = this.checked;
+    state.serialize();
+    userHasInteracted();
+    heatMap.updateTrainPoints(state.showTrainData ? trainData : []);
+  });
+  // Check/uncheck the checkbox according to the current state.
+  showTrainData.property("checked", state.showTrainData);
+
+  let showValidationData = d3.select("#show-validation-data").on("change", function() {
+    state.showValidationData = this.checked;
+    state.serialize();
+    userHasInteracted();
+    heatMap.updateValidationPoints(state.showValidationData ? validationData : []);
+  });
+  // Check/uncheck the checkbox according to the current state.
+  showValidationData.property("checked", state.showValidationData);
 
   let showTestData = d3.select("#show-test-data").on("change", function() {
     state.showTestData = this.checked;
@@ -880,9 +901,9 @@ function updateUI(firstStep = false) {
 
   // Update loss and iteration number.
   d3.select("#loss-train").text(humanReadable(lossTrain));
-  d3.select("#loss-test").text(humanReadable(lossTest));
+  d3.select("#loss-validation").text(humanReadable(lossValidation));
   d3.select("#iter-number").text(addCommas(zeroPad(iter)));
-  lineChart.addDataPoint([lossTrain, lossTest]);
+  lineChart.addDataPoint([lossTrain, lossValidation]);
 }
 
 function constructInputIds(): string[] {
@@ -917,7 +938,7 @@ function oneStep(): void {
   });
   // Compute the loss.
   lossTrain = getLoss(network, trainData);
-  lossTest = getLoss(network, testData);
+  lossValidation = getLoss(network, validationData);
   updateUI();
 }
 
@@ -958,7 +979,7 @@ function reset(onStartup=false) {
   network = nn.buildNetwork(shape, state.activation, outputActivation,
       state.regularization, constructInputIds(), state.initZero);
   lossTrain = getLoss(network, trainData);
-  lossTest = getLoss(network, testData);
+  lossValidation = getLoss(network, validationData);
   drawNetwork(network);
   updateUI(true);
 };
@@ -1082,9 +1103,9 @@ function generateData(firstTime = false) {
   // Split into train and test data.
   let splitIndex = Math.floor(data.length * state.percTrainData / 100);
   trainData = data.slice(0, splitIndex);
-  testData = data.slice(splitIndex);
-  heatMap.updatePoints(trainData);
-  heatMap.updateTestPoints(state.showTestData ? testData : []);
+  validationData = data.slice(splitIndex);
+  heatMap.updateTrainPoints(state.showTrainData ? trainData : []);
+  heatMap.updateValidationPoints(state.showValidationData ? validationData : []);
 }
 
 let firstInteraction = true;

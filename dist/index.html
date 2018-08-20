@@ -263,22 +263,22 @@ limitations under the License.
     <div class="column output">
       <h4>出力</h4>
       <div class="metrics">
-        <div class="output-stats ui-percTrainData">
-          <span>Test loss(誤差)</span>
-          <div class="value" id="loss-test"></div>
-        </div>
         <div class="output-stats train">
-          <span>Traning loss</span>
+          <span>Train loss (誤差)</span>
           <div class="value" id="loss-train"></div>
+        </div>
+        <div class="output-stats ui-percTrainData">
+          <span>Validation loss</span>
+          <div class="value" id="loss-validation"></div>
         </div>
         <div id="linechart"></div>
       </div>
       <div id="heatmap"></div>
-      <div style="float:left;margin-top:20px">
+      <div style="float:left;margin-top:0;margin: 0 0 10px 0">
         <div style="display:flex; align-items:center;">
 
           <!-- Gradient color scale -->
-          <div class="label" style="width:105px; margin-right: 10px">
+          <div class="label" style="width:105px; margin: 0 10px 10px 0">
             データ ／ ニューロン (neurons) ／ 重み の値を色で表現しています。
           </div>
           <svg width="150" height="30" id="colormap">
@@ -294,7 +294,16 @@ limitations under the License.
             </g>
           </svg>
         </div>
-        <br/>
+        <div style="display:flex;">
+          <label class="ui-showTrainData mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="show-train-data">
+            <input type="checkbox" id="show-train-data" class="mdl-checkbox__input" checked>
+            <span class="mdl-checkbox__label label">訓練データ表示</span>
+          </label>
+          <label class="ui-showValidationData mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="show-validation-data">
+            <input type="checkbox" id="show-validation-data" class="mdl-checkbox__input" checked>
+            <span class="mdl-checkbox__label label">精度検証データ表示</span>
+          </label>
+        </div>
         <div style="display:flex;">
           <label class="ui-showTestData mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="show-test-data">
             <input type="checkbox" id="show-test-data" class="mdl-checkbox__input" checked>
@@ -305,6 +314,22 @@ limitations under the License.
             <span class="mdl-checkbox__label label">出力の離散化</span>
           </label>
         </div>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="
+          width: unset;
+          height: unset;
+          min-width: unset;
+          margin: 3px;
+          color: #777;
+          font-size: 13px;
+        ">1つの点を自動生成してテスト</button>
+       <table class="mdl-data-table">
+          <thead id="data-table-head">
+            <tr><th>X座標</th><th>Y座標</th><th>分類</th><th>確度</th></tr></thead>
+          </thead>
+          <tbody>
+            <tr><td> </td><td> </td><td> </td><td> </td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
