@@ -76,6 +76,7 @@ let HIDABLE_CONTROLS = [
   ["☑ 精度検証データ表示", "showValidationData"],
   ["☑ テストデータ表示", "showTestData"],
   ["☑ 出力の離散化", "discretize"],
+  ["テスト ボタン", "testButton"],
   ["再生 ボタン", "playButton"],
   ["ステップ ボタン", "stepButton"],
   ["リセット ボタン", "resetButton"],
@@ -902,6 +903,8 @@ function updateUI(firstStep = false) {
   // Update loss and iteration number.
   d3.select("#loss-train").text(humanReadable(lossTrain));
   d3.select("#loss-validation").text(humanReadable(lossValidation));
+  // d3.select("#acc-train").text(humanReadable(lossTrain));
+  // d3.select("#acc-validation").text(humanReadable(lossValidation));
   d3.select("#iter-number").text(addCommas(zeroPad(iter)));
   lineChart.addDataPoint([lossTrain, lossValidation]);
 }
@@ -977,7 +980,7 @@ function reset(onStartup=false) {
   let outputActivation = (state.problem === Problem.REGRESSION) ?
       nn.Activations.LINEAR : nn.Activations.TANH;
   network = nn.buildNetwork(shape, state.activation, outputActivation,
-      state.regularization, constructInputIds(), state.initZero);
+      state.regularization, constructInputIds(), state.initOrigin);
   lossTrain = getLoss(network, trainData);
   lossValidation = getLoss(network, validationData);
   drawNetwork(network);

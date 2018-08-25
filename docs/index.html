@@ -199,8 +199,8 @@ limitations under the License.
           データの再生成
         </button>
 
-        <hr>
-        <h4>
+        <hr class="ui-batchSize">
+        <h4 class="ui-batchSize">
           <span>学習とデータ</span>
         </h4>
         <div class="ui-batchSize">
@@ -292,6 +292,18 @@ limitations under the License.
       </div>
       <div id="heatmap"></div>
       <div style="float:left;margin-top:0;margin: 0 0 10px 0">
+
+        <div class="stats">
+          <div class="output-stats train">
+            <span>Train acc (精度)</span>
+            <div class="value" id="acc-train"></div>
+          </div>
+          <div class="output-stats ui-percTrainData">
+            <span>Validation acc</span>
+            <div class="value" id="acc-validation"></div>
+          </div>
+        </div>
+
         <div style="display:flex; align-items:center;">
 
           <!-- Gradient color scale -->
@@ -331,22 +343,24 @@ limitations under the License.
             <span class="mdl-checkbox__label label">出力の離散化</span>
           </label>
         </div>
-        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="
-          width: unset;
-          height: unset;
-          min-width: unset;
-          margin: 3px;
-          color: #777;
-          font-size: 13px;
-        ">1つの点を自動生成してテスト</button>
-       <table class="mdl-data-table">
-          <thead id="data-table-head">
-            <tr><th>X座標</th><th>Y座標</th><th>分類</th><th>確度</th></tr></thead>
-          </thead>
-          <tbody>
-            <tr><td> </td><td> </td><td> </td><td> </td></tr>
-          </tbody>
-        </table>
+        <div class="ui-testButton">
+          <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="
+            width: unset;
+            height: unset;
+            min-width: unset;
+            margin: 3px;
+            color: #777;
+            font-size: 13px;
+          ">1つの点を自動生成してテスト</button>
+          <table class="mdl-data-table">
+            <thead id="data-table-head">
+              <tr><th>X座標</th><th>Y座標</th><th>分類</th><th>予測</th></tr></thead>
+            </thead>
+            <tbody>
+              <tr><td> </td><td> </td><td> </td><td> </td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -370,32 +384,96 @@ limitations under the License.
     </div>
 
     <div class="l--body">
+        <h2>それぞれの色の意味は？</h2>
+        <p>ニューラルネットワークの学習過程を視覚化するために、青色とオレンジ色を使っています。<br>
+        色の使い方が微妙に異なる部分はありますが、基本的に、青色は「正の値」（positive values）を表し、オレンジ色は「負の値」（negative values）を表しています。</p>
+        <p>入力層（input layer）においては、<b>データの点</b>（points： 小さな円で表現されている）それぞれが、もともと青色かオレンジ色で着色されています（［出力］のグラフ図を参照）。<br>
+        つまり、各点が初めから「正の値」か「負の値」（正解ラベル）に対応付けられているということです。</p>
+        <p>隠れ層（hidden layers）においては、ニューロン間の結合の<b>重み</b>（weights）によって、線が着色されています。<br>
+        青色の線は「正の重み」（positive weight）を表し、オレンジ色の線は「負の重み」（negative weight）を表しています。<br>
+        正の重みとは、その線の接続元にあるニューロンから与えられた出力を、他のニューロンの入力として使用する可能性が高い（＝発火を促進する）ということです。<br>
+        逆に、負の重みとは、使用しない可能性が高い（＝発火を抑制する）ということです。<br>
+        線の色の濃さは、その<b>結合の強度</b>を表します。</p>
+        <p>出力層（output layer）においては、前述したように、<b>データの点</b>それぞれが、もともとの値（正解ラベル）に基づき、青色かオレンジ色で着色されています。<br>
+        また、背景色が塗られた領域は、学習済みのネットワークによって出力された<b>予測結果</b>が「正」か「負」のどちらの領域に入るかを視覚的に表現しています。<br>
+        背景色の濃さは、その予測結果の<b>信頼度</b>を表します。</p>
+      </div>
+  
+      <div class="l--body">
+        <h2>何のライブラリを使っているの？</h2>
+        <p>このページが提供するソフトウェアの目的は、教育用にニューラルネットワークを視覚化することです。これを実現するために独自に書いた、小さなニューラル ネットワーク <a href="https://github.com/tensorflow/playground/blob/master/src/nn.ts">ライブラリ</a>を使っています。実世界のアプリケーション向けには、<a href="https://www.tensorflow.org/">TensorFlow</a> ライブラリの利用を検討してください。</p>
+      </div>
+
+    <div class="l--body">
       <h2>これはすごいね、他でも使っていい？</h2>
       <p>ぜひ、やってみてください！ ニューラルネットワークが少しでもアクセスしやすく学びやすくなることを願って、<a href="https://github.com/tensorflow/playground">GitHub（オリジナル版）</a>、もしくは独自運用と日本語化を行っている <a href="https://github.com/DeepInsider/playground">Deep Insider による Fork 版</a> でオープンソース（<a href="https://github.com/tensorflow/playground/blob/master/LICENSE">Apache 2.0 ライセンス</a>）にしています。このライセンスに従ってさえいれば、どんな使い方でも自由です。また、もし追加や変更の提案があれば、ぜひ<a href="https://github.com/tensorflow/playground/issues">お知らせください</a>。</p>
       <p>さらに、特定のトピックやレッスンに対応する Playground（実験場）として調整できるように、いくつかのカスタマイズ項目を提供しています。具体的には以下から、「表示したい機能」を選択するだけです。あとは、　<a class="hide-controls-link" href="#">このリンク</a>　を保存するか、　<a href="javascript:location.reload();">このページを再読み込み</a>　してください。</p>
       <div class="hide-controls"></div>
-      <p><br>※Tips： ページの枠デザインやテキスト部分を非表示にするには、 <b>&amp;hideText=false</b> パラメーターに手動で修正してください。</p>
-    </div>
-
-    <div class="l--body">
-      <h2>それぞれの色の意味は？</h2>
-      <p>ニューラルネットワークの学習過程を視覚化するために、青色とオレンジ色を使っています。<br>
-      色の使い方が微妙に異なる部分はありますが、基本的に、青色は「正の値」（positive values）を表し、オレンジ色は「負の値」（negative values）を表しています。</p>
-      <p>入力層（input layer）においては、<b>データの点</b>（points： 小さな円で表現されている）それぞれが、もともと青色かオレンジ色で着色されています（［出力］のグラフ図を参照）。<br>
-      つまり、各点が初めから「正の値」か「負の値」（正解ラベル）に対応付けられているということです。</p>
-      <p>隠れ層（hidden layers）においては、ニューロン間の結合の<b>重み</b>（weights）によって、線が着色されています。<br>
-      青色の線は「正の重み」（positive weight）を表し、オレンジ色の線は「負の重み」（negative weight）を表しています。<br>
-      正の重みとは、その線の接続元にあるニューロンから与えられた出力を、他のニューロンの入力として使用する可能性が高い（＝発火を促進する）ということです。<br>
-      逆に、負の重みとは、使用しない可能性が高い（＝発火を抑制する）ということです。<br>
-      線の色の濃さは、その<b>結合の強度</b>を表します。</p>
-      <p>出力層（output layer）においては、前述したように、<b>データの点</b>それぞれが、もともとの値（正解ラベル）に基づき、青色かオレンジ色で着色されています。<br>
-      また、背景色が塗られた領域は、学習済みのネットワークによって出力された<b>予測結果</b>が「正」か「負」のどちらの領域に入るかを視覚的に表現しています。<br>
-      背景色の濃さは、その予測結果の<b>信頼度</b>を表します。</p>
-    </div>
-
-    <div class="l--body">
-      <h2>何のライブラリを使っているの？</h2>
-      <p>このページが提供するソフトウェアの目的は、教育用にニューラルネットワークを視覚化することです。これを実現するために独自に書いた、小さなニューラル ネットワーク <a href="https://github.com/tensorflow/playground/blob/master/src/nn.ts">ライブラリ</a>を使っています。実世界のアプリケーション向けには、<a href="https://www.tensorflow.org/">TensorFlow</a> ライブラリの利用を検討してください。</p>
+      <p><br><b>※Tips 1：</b> ページの枠デザインやテキスト部分を非表示にするには、下記のパラメーターに手動で修正してください。<br>
+          　<b>&amp;hideText=false</b>
+      </p>
+      <p><b>※Tips 2：</b> 各項目を非表示にするには、下記のパラメーターを手動で指定してください。<br>
+          　<b>&x_hide=true</b><br>
+          　<b>&y_hide=true</b><br>
+          　<b>&xSquared_hide=true</b><br>
+          　<b>&ySquared_hide=true</b><br>
+          　<b>&xTimesY_hide=true</b><br>
+          　<b>&sinX_hide=true</b><br>
+          　<b>&sinY_hide=true</b><br>
+          　ちなみに、上記のチェックボックスでは、<b>＜既存パラーメーター名＞_hide = true</b> が自動的に指定されます。これと同じことを手動でする必要があります。
+      </p>
+      <p><b>※Tips 3：</b> オリジナル版の重みやバイアスの値で初期化する場合は、下記のパラメーターを手動で指定してください。<br>
+          　<b>&initOrigin=true</b>
+      </p>
+      <p><b>※Tips 4：</b> 乱数シードを指定するには、下記のパラメーターを手動で指定してください。<br>
+          　<b>&seed=0.12345</b>
+      </p>
+      <p><b>※Tips 5：</b> 各パラメーターの初期値は以下のとおりです。<br>
+          ［問題種別］関連のパラメーター：<br>
+          　<b>【problem】</b> classification<br>
+          <br>
+          ［データ生成］関連のパラメーター：<br>
+          　<b>【dataset】</b> circle<br>
+          　<b>【regDataset】</b> reg-plane<br>
+          　<b>【percTrainData】</b> 50<br>
+          　<b>【noise】</b> 0<br>
+          　<b>【seed】</b> 0.XXXXX（ランダム）<br>
+          <br>
+          ［学習とデータ］関連のパラメーター：<br>
+          　<b>【batchSize】</b> 10<br>
+          <br>
+          ［入力（特徴）］関連のパラメーター：<br>
+          　<b>【x】</b> true<br>
+          　<b>【y】</b> true<br>
+          　<b>【xSquared】</b> false<br>
+          　<b>【ySquared】</b> false<br>
+          　<b>【xTimesY】</b> false<br>
+          　<b>【sinX】</b> false<br>
+          　<b>【sinY】</b> false<br>
+          <br>
+          ［隠れ層］関連のパラメーター：<br>
+          　<b>【networkShape】</b> 4,2<br>
+          <br>
+          ［ニューロン］関連のパラメーター：<br>
+          　<b>【activation】</b> tanh<br>
+          　<b>【regularizationRate】</b> 0<br>
+          <br>
+          ［リンク（重みとバイアス）］関連のパラメーター：<br>
+          　<b>【initOrigin】</b> false<br>
+          <br>
+          ［学習の実行］関連のパラメーター：<br>
+          　<b>【learningRate】</b> 0.03<br>
+          <br>
+          ［出力］関連のパラメーター：<br>
+          　<b>【showTrainData】</b> false<br>
+          　<b>【showValidationData】</b> false<br>
+          　<b>【showTestData】</b> false<br>
+          　<b>【discretize】</b> false<br>
+          　<b>【testButton】</b> false<br>
+          <br>
+          ［全体表示］関連のパラメーター：<br>
+          　<b>【hideText】</b> false<br>
+      </p>
     </div>
 
     <div class="l--body">

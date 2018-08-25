@@ -803,6 +803,13 @@ g.column rect {
   height: 60px;
 }
 
+.stats {
+  font-weight: 300;
+  font-size: 13px;
+  margin-bottom: 8px;
+  padding: 0;
+}
+
 #linechart {
   position: absolute;
   top: 0;
@@ -810,13 +817,16 @@ g.column rect {
   width: 50%;
   height: 55px;
 }
-.metrics .train {
+
+.metrics .train, .stats .train {
   color: #777;
 }
 
-#loss-validation {
+#loss-validation, #acc-validation {
   color: black;
 }
+
+
 
 .output .output-stats .value {
   color: rgba(0, 0, 0, 0.6);

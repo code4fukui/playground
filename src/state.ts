@@ -124,14 +124,12 @@ export class State {
     {name: "xTimesY", type: Type.BOOLEAN},
     {name: "xSquared", type: Type.BOOLEAN},
     {name: "ySquared", type: Type.BOOLEAN},
-    {name: "cosX", type: Type.BOOLEAN},
     {name: "sinX", type: Type.BOOLEAN},
-    {name: "cosY", type: Type.BOOLEAN},
     {name: "sinY", type: Type.BOOLEAN},
-    {name: "collectStats", type: Type.BOOLEAN},
+    {name: "testButton", type: Type.BOOLEAN},
     {name: "tutorial", type: Type.STRING},
     {name: "problem", type: Type.OBJECT, keyMap: problems},
-    {name: "initZero", type: Type.BOOLEAN},
+    {name: "initOrigin", type: Type.BOOLEAN},
     {name: "hideText", type: Type.BOOLEAN}
   ];
 
@@ -149,9 +147,9 @@ export class State {
   activation = nn.Activations.TANH;
   regularization: nn.RegularizationFunction = null;
   problem = Problem.CLASSIFICATION;
-  initZero = false;
+  initOrigin = false;
   hideText = false;
-  collectStats = false;
+  testButton = false;
   numHiddenLayers = 1;
   hiddenLayerControls: any[] = [];
   networkShape: number[] = [4, 2];
@@ -160,9 +158,7 @@ export class State {
   xTimesY = false;
   xSquared = false;
   ySquared = false;
-  cosX = false;
   sinX = false;
-  cosY = false;
   sinY = false;
   dataset: dataset.DataGenerator = dataset.classifyCircleData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;

@@ -22,7 +22,7 @@ export class Node {
   id: string;
   /** List of input links. */
   inputLinks: Link[] = [];
-  bias = 0.1;
+  bias = 0.0;
   /** List of output links. */
   outputs: Link[] = [];
   totalInput: number;
@@ -48,11 +48,11 @@ export class Node {
   /**
    * Creates a new node with the provided id and activation function.
    */
-  constructor(id: string, activation: ActivationFunction, initZero?: boolean) {
+  constructor(id: string, activation: ActivationFunction, initOrigin?: boolean) {
     this.id = id;
     this.activation = activation;
-    if (initZero) {
-      this.bias = 0;
+    if (initOrigin) {
+      this.bias = 0.1;
     }
   }
 
@@ -148,6 +148,22 @@ export class RegularizationFunction {
   };
 }
 
+
+/**
+ * Glorot uniform initializer, also called Xavier uniform initializer.
+ * 
+ * It draws samples from a uniform distribution within [-limit, limit].
+ * 
+ * @param fan_in The number of input units in the current link.
+ * @param fan_out The number of output units in the current link.
+ * @return An initializer.
+ */
+function glorotUniform(fan_in: number, fan_out: number): number {
+  var scale = 1.0 / Math.max(1.0, (fan_in + fan_out) / 2.0);
+  var limit = Math.sqrt(3.0 * scale); // equals to `sqrt(6 / (fan_in + fan_out))`
+  return Math.random() * (limit * 2) - limit;
+}
+
 /**
  * A link in a neural network. Each link has a weight and a source and
  * destination node. Also it has an internal state (error derivative
@@ -158,7 +174,7 @@ export class Link {
   id: string;
   source: Node;
   dest: Node;
-  weight = Math.random() - 0.5;
+  weight = 0;
   isDead = false;
   /** Error derivative with respect to this weight. */
   errorDer = 0;
@@ -177,13 +193,15 @@ export class Link {
    *     penalty for this weight. If null, there will be no regularization.
    */
   constructor(source: Node, dest: Node,
-      regularization: RegularizationFunction, initZero?: boolean) {
+      regularization: RegularizationFunction, initOrigin?: boolean) {
     this.id = source.id + "-" + dest.id;
     this.source = source;
     this.dest = dest;
     this.regularization = regularization;
-    if (initZero) {
-      this.weight = 0;
+    if (initOrigin) {
+      this.weight = Math.random() - 0.5; // -0.5～0.5
+    } else {
+      this.weight = glorotUniform(source.outputs.length, dest.outputs.length);
     }
   }
 }
@@ -205,7 +223,7 @@ export function buildNetwork(
     networkShape: number[], activation: ActivationFunction,
     outputActivation: ActivationFunction,
     regularization: RegularizationFunction,
-    inputIds: string[], initZero?: boolean): Node[][] {
+    inputIds: string[], initOrigin?: boolean): Node[][] {
   let numLayers = networkShape.length;
   let id = 1;
   /** List of layers, with each layer being a list of nodes. */
@@ -224,13 +242,13 @@ export function buildNetwork(
         id++;
       }
       let node = new Node(nodeId,
-          isOutputLayer ? outputActivation : activation, initZero);
+          isOutputLayer ? outputActivation : activation, initOrigin);
       currentLayer.push(node);
       if (layerIdx >= 1) {
         // Add links from nodes in the previous layer to this node.
         for (let j = 0; j < network[layerIdx - 1].length; j++) {
           let prevNode = network[layerIdx - 1][j];
-          let link = new Link(prevNode, node, regularization, initZero);
+          let link = new Link(prevNode, node, regularization, initOrigin);
           prevNode.outputs.push(link);
           node.inputLinks.push(link);
         }
