@@ -31,6 +31,8 @@ export class Node {
   outputDer = 0;
   /** Error derivative with respect to this node's total input. */
   inputDer = 0;
+  /** The number of the previous layer. */
+  numNodes = 1;
   /**
    * Accumulated error derivative with respect to this node's total input since
    * the last update. This derivative equals dE/db where b is the node's
@@ -48,9 +50,10 @@ export class Node {
   /**
    * Creates a new node with the provided id and activation function.
    */
-  constructor(id: string, activation: ActivationFunction, initOrigin?: boolean) {
+  constructor(id: string, activation: ActivationFunction, numNodes: number, initOrigin?: boolean) {
     this.id = id;
     this.activation = activation;
+    this.numNodes = numNodes;
     if (initOrigin) {
       this.bias = 0.1;
     }
@@ -159,8 +162,9 @@ export class RegularizationFunction {
  * @return An initializer.
  */
 function glorotUniform(fan_in: number, fan_out: number): number {
-  var scale = 1.0 / Math.max(1.0, (fan_in + fan_out) / 2.0);
-  var limit = Math.sqrt(3.0 * scale); // equals to `sqrt(6 / (fan_in + fan_out))`
+  // var scale = 1.0 / Math.max(1.0, (fan_in + fan_out) / 2.0);
+  // var limit = Math.sqrt(3.0 * scale); // equals to `sqrt(6 / (fan_in + fan_out))`
+  var limit = Math.sqrt(6.0 / (fan_in + fan_out)); // equals to `sqrt(6 / (fan_in + fan_out))`
   return Math.random() * (limit * 2) - limit;
 }
 
@@ -201,7 +205,7 @@ export class Link {
     if (initOrigin) {
       this.weight = Math.random() - 0.5; // -0.5～0.5
     } else {
-      this.weight = glorotUniform(source.outputs.length, dest.outputs.length);
+      this.weight = glorotUniform(source.numNodes, dest.numNodes);
     }
   }
 }
@@ -241,8 +245,9 @@ export function buildNetwork(
       } else {
         id++;
       }
-      let node = new Node(nodeId,
-          isOutputLayer ? outputActivation : activation, initOrigin);
+      let node = new Node(nodeId, 
+        isOutputLayer ? outputActivation : activation,
+        numNodes, initOrigin);
       currentLayer.push(node);
       if (layerIdx >= 1) {
         // Add links from nodes in the previous layer to this node.
