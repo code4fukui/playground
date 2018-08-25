@@ -174,6 +174,8 @@ let testData: Example2D[] = [];
 let network: nn.Node[][] = null;
 let lossTrain = 0;
 let lossValidation = 0;
+let accTrain = 0;
+let accValidation = 0;
 let player = new Player();
 let lineChart = new AppendingLineChart(d3.select("#linechart"),
     ["#777", "black"]);
@@ -378,6 +380,7 @@ function makeGUI() {
     state.problem = problems[this.value];
     generateData();
     drawDatasetThumbnails();
+    showAccuracy();
     parametersChanged = true;
     reset();
   });
@@ -869,6 +872,32 @@ function getLoss(network: nn.Node[][], dataPoints: Example2D[]): number {
   return loss / dataPoints.length;
 }
 
+function getAccuracy(network: nn.Node[][], dataPoints: Example2D[]): number {
+  let accsum = 0;
+  for (let i = 0; i < dataPoints.length; i++) {
+    let dataPoint = dataPoints[i];
+    let input = constructInput(dataPoint.x, dataPoint.y);
+    let output = nn.forwardProp(network, input);
+    output = (output >= 0 ? 1 : -1);
+    accsum += (output == dataPoint.label ? 1 : 0);
+  }
+  return accsum / dataPoints.length;
+}
+
+function showAccuracy() {
+  let controls = d3.select(`#acc-stats`);
+  if (controls.size() === 1) {
+    switch (state.problem) {
+      case Problem.CLASSIFICATION:
+        controls.style("display", "block");
+        break;
+      case Problem.REGRESSION:
+        controls.style("display", "none");
+        break;
+    }
+    }
+}
+
 function updateUI(firstStep = false) {
   // Update the links visually.
   updateWeightsUI(network, d3.select("g.core"));
@@ -903,8 +932,8 @@ function updateUI(firstStep = false) {
   // Update loss and iteration number.
   d3.select("#loss-train").text(humanReadable(lossTrain));
   d3.select("#loss-validation").text(humanReadable(lossValidation));
-  // d3.select("#acc-train").text(humanReadable(lossTrain));
-  // d3.select("#acc-validation").text(humanReadable(lossValidation));
+  d3.select("#acc-train").text(humanReadable(accTrain));
+  d3.select("#acc-validation").text(humanReadable(accValidation));
   d3.select("#iter-number").text(addCommas(zeroPad(iter)));
   lineChart.addDataPoint([lossTrain, lossValidation]);
 }
@@ -942,6 +971,10 @@ function oneStep(): void {
   // Compute the loss.
   lossTrain = getLoss(network, trainData);
   lossValidation = getLoss(network, validationData);
+  if (state.problem === Problem.CLASSIFICATION) {
+    accTrain = getAccuracy(network, trainData);
+    accValidation = getAccuracy(network, validationData);
+  }
   updateUI();
 }
 
@@ -983,6 +1016,10 @@ function reset(onStartup=false) {
       state.regularization, constructInputIds(), state.initOrigin);
   lossTrain = getLoss(network, trainData);
   lossValidation = getLoss(network, validationData);
+  if (state.problem === Problem.CLASSIFICATION) {
+    accTrain = getAccuracy(network, trainData);
+    accValidation = getAccuracy(network, validationData);
+  }
   drawNetwork(network);
   updateUI(true);
 };
@@ -1138,6 +1175,7 @@ function simulationStarted() {
 }
 
 drawDatasetThumbnails();
+showAccuracy();
 initTutorial();
 makeGUI();
 generateData(true);
