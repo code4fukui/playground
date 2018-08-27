@@ -102,21 +102,27 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-optimizer">
-        <label for="optimizers">活性化関数 (出力層)</label>
+      <div class="control ui-outactiv">
+        <label for="outactivs">活性化関数 (出力層)</label>
         <div class="select">
-          <select id="optimizers">
-            <option value="linear">線形 (回帰)</option>
-            <option value="Tanh">Tanh (分類)</option>
+          <select id="outactivs">
+              <option value="classification" id="out-tanh">Tanh (分類)</option>
+              <option value="regression" id="out-linear">線形 (回帰)</option>
           </select>
         </div>
       </div>
 
       <div class="control ui-batchSize">
         <label for="batchSize">バッチサイズ:&nbsp;&nbsp;<span class="value">XX</span>個</label>
-        <p class="slider">
+        <div class="batch-slider">
+          <p class="slider" id="batch-size-slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="batchSize" min="1" max="30" step="1">
-        </p>
+          </p>
+          <label class="ui-batchFull mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="batch-full-size">
+            <input type="checkbox" id="batch-full-size" class="mdl-checkbox__input" checked>
+            <span class="mdl-checkbox__label label">全部</span>
+          </label>
+        </div>
       </div>
 
       <div class="timeline-controls">
@@ -412,20 +418,13 @@ limitations under the License.
             <span class="da-ref-123">8</span> テスト ⇒ 完成
         </h4>
         <div class="ui-testButton">
-          <button class="mdl-button mdl-js-button mdl-js-ripple-effect" style="
-            width: unset;
-            height: unset;
-            min-width: unset;
-            margin: 3px;
-            color: #777;
-            font-size: 13px;
-          ">1つの点を自動生成してテスト</button>
+          <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="generate-test-data">1つの点を自動生成してテスト</button>
           <table class="mdl-data-table">
             <thead id="data-table-head">
               <tr><th>X座標</th><th>Y座標</th><th>分類</th><th>予測</th></tr></thead>
             </thead>
-            <tbody>
-              <tr><td> </td><td> </td><td> </td><td> </td></tr>
+            <tbody id="data-table-body">
+              <td></td><td></td><td></td><td></td>
             </tbody>
           </table>
         </div>
@@ -488,6 +487,7 @@ limitations under the License.
           　<b>&xTimesY_hide=true</b><br>
           　<b>&sinX_hide=true</b><br>
           　<b>&sinY_hide=true</b><br>
+          　<b>&prepare_hide=true</b><br>
           　ちなみに、上記のチェックボックスでは、<b>＜既存パラーメーター名＞_hide = true</b> が自動的に指定されます。これと同じことを手動でする必要があります。
       </p>
       <p><b>※Tips 3：</b> オリジナル版の重みやバイアスの値で初期化する場合は、下記のパラメーターを手動で指定してください。<br>
@@ -509,6 +509,7 @@ limitations under the License.
           <br>
           ［学習とデータ］関連のパラメーター：<br>
           　<b>【batchSize】</b> 10<br>
+          　<b>【batchFull】</b> false<br>
           <br>
           ［入力（特徴）］関連のパラメーター：<br>
           　<b>【x】</b> true<br>

@@ -118,6 +118,7 @@ export class State {
     {name: "loss", type: Type.OBJECT, keyMap: losses},
     {name: "regularization", type: Type.OBJECT, keyMap: regularizations},
     {name: "batchSize", type: Type.NUMBER},
+    {name: "batchFull", type: Type.BOOLEAN},
     {name: "dataset", type: Type.OBJECT, keyMap: datasets},
     {name: "regDataset", type: Type.OBJECT, keyMap: regDatasets},
     {name: "learningRate", type: Type.NUMBER},
@@ -149,9 +150,10 @@ export class State {
   regularizationRate = 0;
   showTrainData = true;
   showValidationData = false;
-  showTestData = false;
+  showTestData = true;
   noise = 0;
   batchSize = 10;
+  batchFull = false;
   discretize = false;
   tutorial: string = null;
   percTrainData = 50;

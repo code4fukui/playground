@@ -375,6 +375,11 @@ header h1 .optional {
   pointer-events: none;
 }
 
+.data.column .ui-percTrainData,
+.data.column .ui-noise {
+  margin-top: 10px;
+}
+
 /* Hover card */
 #hovercard {
   display: none;
@@ -1048,12 +1053,20 @@ footer .links a:hover {
 }
 
 #top-controls .mdl-slider {
-  width: calc(100% - 10px);
-  margin: 0 20px 0 0;
+  width: 100%;
+  margin: 0 10px 0 0;
+}
+
+#top-controls .batch-slider {
+  display:flex;
+}
+
+#top-controls  .batch-slider label {
+  width: 60px;
 }
 
 #top-controls .mdl-slider__background-flex {
-  width: calc(100% - 30px);
+  width: calc(100% - 20px);
   margin: 0;
 }
 
@@ -1085,6 +1098,15 @@ footer .links a:hover {
 #main-part .mdl-slider.is-upgraded:focus:not(:active)::-webkit-slider-thumb,
 #main-part .mdl-slider.is-upgraded:focus:not(:active)::-webkit-slider-thumb {
   box-shadow: 0 0 0 10px rgba(0,0,0, 0.12);
+}
+
+#main-part .mdl-button#generate-test-data {
+  width: unset;
+  height: unset;
+  min-width: unset;
+  margin: 3px;
+  color: #777;
+  font-size: 13px;
 }
 
 /* Round Number */

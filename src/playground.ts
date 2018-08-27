@@ -26,8 +26,12 @@ import {
   getKeyFromValue,
   Problem
 } from "./state";
-import {Example2D, shuffle} from "./dataset";
+import {Example2D, shuffle, Test2D} from "./dataset";
 import {AppendingLineChart} from "./linechart";
+
+const MAX_DOMAIN = 6;
+const NUM_TEST_DATA = 1;
+const DECIMAL_PLACE = 2;
 
 let mainWidth;
 
@@ -92,8 +96,70 @@ let HIDABLE_CONTROLS = [
   ["訓練データの割合", "percTrainData"],
   ["ノイズ レベル", "noise"],
   ["バッチ サイズ", "batchSize"],
+  ["バッチ 全部", "batchFull"],
   ["隠れ層 ⊕⊖ ボタン", "numHiddenLayers"]
 ];
+
+
+let updateTableHead = function () {
+  var isClassificaion: boolean = (state.problem == Problem.CLASSIFICATION);
+  var names: {x: string, y: string, label: string, pred: string }[] = [];
+  names.push(isClassificaion
+      ? {x: "X座標", y: "Y座標", label: "分類", pred: "予測" }
+      : {x: "X座標", y: "Y座標", label: "回帰", pred: "予測" }
+  );
+
+  var thead = d3.select("#data-table-head");
+
+  thead.selectAll('tr').remove();
+  var tr = thead.selectAll('tr').data(names);
+  var th = tr.enter().append("tr").selectAll('th').data(function(row) { return d3.entries(row); });
+  tr.exit().remove();
+
+  th.enter().append("th").text((name: any) => { return name.value; });
+  th.exit().remove();
+};
+
+let randUniform = function (a, b) {
+  return Math.random() * (b - a) + a;
+}
+
+let updateDataTable = function (points: Example2D[], isClassificaion: boolean) {
+   var tbody = d3.select("#data-table-body");
+
+   tbody.selectAll("tr").remove();
+   var tr = tbody.selectAll("tr").data(points);
+   var td = tr.enter().append("tr").selectAll("td").data(function(row) { return d3.entries(row); });
+   tr.exit().remove();
+
+   td.enter().append("td").text((d: any) => { return d.key == 'label' ? (isClassificaion ? d.value : '') : d.value.toFixed(DECIMAL_PLACE); }); 
+   td.exit().remove();
+};
+
+let generateTestPoints = function (numSamples: number) {
+  var points: Test2D[] = [];
+  for (var i = 0; i < numSamples; i++) {
+      var x = randUniform(-MAX_DOMAIN, MAX_DOMAIN);
+      var y = randUniform(-MAX_DOMAIN, MAX_DOMAIN);
+      var input = constructInput(x, y);
+      var pred = nn.forwardProp(network, input);
+      var label = (pred >= 0.0) ? 1 : -1;
+      points.push({x, y, label, pred});
+  }
+  return points;
+};
+
+let getTestPoint = function (coords) {
+  var points: Test2D[] = [];
+  var x = coords[0];
+  var y = coords[1];
+  var input = constructInput(x, y);
+  var pred = nn.forwardProp(network, input);
+  var label = (pred >= 0.0) ? 1 : -1;
+  points.push({x, y, label, pred});
+  return points;
+};
+
 
 class Player {
   private timerIndex = 0;
@@ -158,10 +224,16 @@ state.getHiddenProps().forEach(prop => {
 let boundary: {[id: string]: number[][]} = {};
 let selectedNodeId: string = null;
 // Plot the heatmap.
-let xDomain: [number, number] = [-6, 6];
+let xDomain: [number, number] = [-MAX_DOMAIN, MAX_DOMAIN];
 let heatMap =
     new HeatMap(300, DENSITY, xDomain, xDomain, d3.select("#heatmap"),
-        {showAxes: true});
+        {showAxes: true},
+        (coords) => {
+          var testPoints = getTestPoint(coords);
+          updateDataTable(testPoints, (state.problem == Problem.CLASSIFICATION));
+          heatMap.updateTestPoints(testPoints);
+        }
+      );
 let linkWidthScale = d3.scale.linear()
   .domain([0, 5])
   .range([1, 10])
@@ -182,6 +254,21 @@ let accValidation = 0;
 let player = new Player();
 let lineChart = new AppendingLineChart(d3.select("#linechart"),
     ["#777", "black"]);
+
+
+function setBatchStatus() {
+  if (state.batchFull) {
+    d3.select("label[for='batchSize'] .value").text(trainData.length);
+    d3.select("#batch-size-slider").style({"pointer-events": "none", "opacity": "0.4"});
+  } else {
+    d3.select("label[for='batchSize'] .value").text(state.batchSize);
+    d3.select("#batch-size-slider").attr("style", null);
+  }
+}
+
+function afterGUI() {
+  setBatchStatus();
+}
 
 function makeGUI() {
   d3.select("#reset-button").on("click", () => {
@@ -212,6 +299,12 @@ function makeGUI() {
   d3.select("#data-regen-button").on("click", () => {
     generateData();
     parametersChanged = true;
+  });
+
+  d3.select("#generate-test-data").on("click", () => {
+    var testPoints = generateTestPoints(NUM_TEST_DATA);
+    updateDataTable(testPoints, (state.problem == Problem.CLASSIFICATION));
+    heatMap.updateTestPoints(testPoints);
   });
 
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
@@ -312,6 +405,9 @@ function makeGUI() {
     state.percTrainData = this.value;
     d3.select("label[for='percTrainData'] .value").text(this.value);
     generateData();
+    if (state.batchFull) {
+      d3.select("label[for='batchSize'] .value").text(trainData.length);
+    }
     parametersChanged = true;
     reset();
   });
@@ -340,12 +436,21 @@ function makeGUI() {
 
   let batchSize = d3.select("#batchSize").on("input", function() {
     state.batchSize = this.value;
-    d3.select("label[for='batchSize'] .value").text(this.value);
+    setBatchStatus();
     parametersChanged = true;
     reset();
   });
-  batchSize.property("value", state.batchSize);
-  d3.select("label[for='batchSize'] .value").text(state.batchSize);
+  batchSize.property("value", (state.batchSize > 30) ? 30 : state.batchSize);
+  // d3.select("label[for='batchSize'] .value").text(state.batchFull ? trainData.length : state.batchSize); // data size is not fixed yet.
+
+  let batchFull = d3.select("#batch-full-size").on("change", function() {
+    state.batchFull = this.checked;
+    setBatchStatus();
+    parametersChanged = true;
+    reset();
+  });
+  // Check/uncheck the checkbox according to the current state.
+  batchFull.property("checked", state.batchFull);
 
   let activationDropdown = d3.select("#activations").on("change", function() {
     state.activation = activations[this.value];
@@ -387,15 +492,35 @@ function makeGUI() {
   });
   regularRate.property("value", state.regularizationRate);
 
+  let changeOutActiv = function() {
+    switch (state.problem) {
+      case problems.classification:
+        d3.select("#out-tanh").property("disabled", false).property("selected", true);
+        d3.select("#out-linear").property("disabled", true);
+        break;
+      case problems.regression:
+        d3.select("#out-linear").property("disabled", false).property("selected", true);
+        d3.select("#out-tanh").property("disabled", true);
+        break;
+    }
+  }
+
   let problem = d3.select("#problem").on("change", function() {
     state.problem = problems[this.value];
+    changeOutActiv();
     generateData();
     drawDatasetThumbnails();
     showAccuracy();
+    updateTableHead();
+    if (state.batchFull) {
+      d3.select("label[for='batchSize'] .value").text(trainData.length);
+    }
     parametersChanged = true;
     reset();
   });
   problem.property("value", getKeyFromValue(problems, state.problem));
+  changeOutActiv();
+  updateTableHead();
 
   // Add scale to the gradient color map.
   let x = d3.scale.linear().domain([-1, 1]).range([0, 144]);
@@ -410,7 +535,6 @@ function makeGUI() {
     .call(xAxis);
 
   // Listen for css-responsive changes and redraw the svg network.
-
   window.addEventListener("resize", () => {
     let newWidth = document.querySelector("#main-part")
         .getBoundingClientRect().width;
@@ -906,7 +1030,7 @@ function showAccuracy() {
         controls.style("display", "none");
         break;
     }
-    }
+  }
 }
 
 function updateUI(firstStep = false) {
@@ -971,13 +1095,13 @@ function constructInput(x: number, y: number): number[] {
 
 function oneStep(): void {
   iter++;
-
-  var rest_of_batches = trainData.length % state.batchSize;
+  var batchSize = state.batchFull ? trainData.length : state.batchSize;
+  var rest_of_batches = trainData.length % batchSize;
   trainData.forEach((point, i) => {
     let input = constructInput(point.x, point.y);
     nn.forwardProp(network, input);
     nn.backProp(network, point.label, state.loss);
-    if ((i + 1) % state.batchSize === 0) {
+    if ((i + 1) % batchSize === 0) {
       nn.updateWeights(network, state.learningRate, state.regularizationRate);
     }
   });
@@ -1191,10 +1315,12 @@ function simulationStarted() {
   parametersChanged = false;
 }
 
+
 drawDatasetThumbnails();
 showAccuracy();
 initTutorial();
 makeGUI();
 generateData(true);
+afterGUI();
 reset(true);
 hideControls();

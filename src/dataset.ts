@@ -22,6 +22,8 @@ export type Example2D = {
   label: number
 };
 
+export type Test2D = Example2D & { pred: number };
+
 type Point = {
   x: number,
   y: number

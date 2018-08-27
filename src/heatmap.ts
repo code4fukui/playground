@@ -15,6 +15,9 @@ limitations under the License.
 
 import {Example2D} from "./dataset";
 
+
+const DECIMAL_PLACE_LIB = 2;
+
 export interface HeatMapSettings {
   [key: string]: any;
   showAxes?: boolean;
@@ -23,6 +26,7 @@ export interface HeatMapSettings {
 
 /** Number of different shades (colors) when drawing a gradient heatmap */
 const NUM_SHADES = 30;
+
 
 /**
  * Draws a heatmap using canvas. Used for showing the learned decision
@@ -40,11 +44,13 @@ export class HeatMap {
   private color: d3.scale.Quantize<string>;
   private canvas: d3.Selection<any>;
   private svg: d3.Selection<any>;
+  public static gCoords: d3.Selection<any>;
 
   constructor(
       width: number, numSamples: number, xDomain: [number, number],
       yDomain: [number, number], container: d3.Selection<any>,
-      userSettings?: HeatMapSettings) {
+      userSettings?: HeatMapSettings,
+      onCoordsClickCallback?: (coords) => void) {
     this.numSamples = numSamples;
     let height = width;
     let padding = userSettings.showAxes ? 20 : 0;
@@ -80,6 +86,37 @@ export class HeatMap {
                      .domain([-1, 1])
                      .range(colors);
 
+    let xScaleReverse = d3.scale.linear().domain([0, width - 2 * padding]).range(xDomain);
+    let yScaleReverse = d3.scale.linear().domain([height - 2 * padding, 0]).range(yDomain);
+
+    let getCords = function (_this) {
+      var coords =d3.mouse(_this);
+      var x = xScaleReverse(coords[0] - padding);
+      var y = yScaleReverse(coords[1] - padding);
+      return [x, y];
+    };
+
+    let onCoordsMouseMove = function(d, i) {
+      var coords = getCords(this);
+      var gCoords = HeatMap.gCoords;
+      gCoords.selectAll("text").remove();
+      gCoords.append("text")
+          .attr("x", 0)
+          .attr("y", -4)
+          .style("font-size", "12px")
+          .text("(" + coords[0].toFixed(DECIMAL_PLACE_LIB) + ", " + coords[1].toFixed(DECIMAL_PLACE_LIB) +")");
+    }
+  
+    let onCoordsMouseLeave = function (d, i) {
+        var gCoords = HeatMap.gCoords;
+        gCoords.selectAll("text").remove();
+    }
+  
+    let onCoordsClick = function (d, i) {
+        var coords =getCords(this);
+        if (onCoordsClickCallback) onCoordsClickCallback(coords);
+    }
+
     container = container.append("div")
       .style({
         width: `${width}px`,
@@ -106,12 +143,17 @@ export class HeatMap {
         "position": "absolute",
         "left": "0",
         "top": "0"
-      }).append("g")
+      })
+      .on("click", onCoordsClick)
+      .on("mouseleave", onCoordsMouseLeave)
+      .on("mousemove", onCoordsMouseMove)
+      .append("g")
         .attr("transform", `translate(${padding},${padding})`);
 
       this.svg.append("g").attr("class", "train");
       this.svg.append("g").attr("class", "validation");
       this.svg.append("g").attr("class", "test");
+      HeatMap.gCoords = this.svg.append("g").attr("class", "coords");
     }
 
     if (this.settings.showAxes) {
