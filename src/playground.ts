@@ -20,6 +20,7 @@ import {
   datasets,
   regDatasets,
   activations,
+  losses,
   problems,
   regularizations,
   getKeyFromValue,
@@ -82,6 +83,8 @@ let HIDABLE_CONTROLS = [
   ["リセット ボタン", "resetButton"],
   ["学習率", "learningRate"],
   ["活性化関数", "activation"],
+  ["損失関数", "loss"],
+  ["最適化", "optimizer"],
   ["正則化", "regularization"],
   ["正則化率", "regularizationRate"],
   ["問題種別", "problem"],
@@ -351,6 +354,14 @@ function makeGUI() {
   });
   activationDropdown.property("value",
       getKeyFromValue(activations, state.activation));
+
+  let lossDropdown = d3.select("#losses").on("change", function() {
+    state.loss =losses[this.value];
+    parametersChanged = true;
+    reset();
+  });
+  lossDropdown.property("value",
+      getKeyFromValue(losses, state.loss));
 
   let learningRate = d3.select("#learningRate").on("change", function() {
     state.learningRate = +this.value;
@@ -867,7 +878,7 @@ function getLoss(network: nn.Node[][], dataPoints: Example2D[]): number {
     let dataPoint = dataPoints[i];
     let input = constructInput(dataPoint.x, dataPoint.y);
     let output = nn.forwardProp(network, input);
-    loss += nn.Errors.SQUARE.error(output, dataPoint.label);
+    loss += state.loss.error(output, dataPoint.label);
   }
   return loss / dataPoints.length;
 }
@@ -965,7 +976,7 @@ function oneStep(): void {
   trainData.forEach((point, i) => {
     let input = constructInput(point.x, point.y);
     nn.forwardProp(network, input);
-    nn.backProp(network, point.label, nn.Errors.SQUARE);
+    nn.backProp(network, point.label, state.loss);
     if ((i + 1) % state.batchSize === 0) {
       nn.updateWeights(network, state.learningRate, state.regularizationRate);
     }

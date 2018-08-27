@@ -21,10 +21,20 @@ const HIDE_STATE_SUFFIX = "_hide";
 
 /** A map between names and activation functions. */
 export let activations: {[key: string]: nn.ActivationFunction} = {
-  "relu": nn.Activations.RELU,
-  "tanh": nn.Activations.TANH,
+  "linear": nn.Activations.LINEAR,
   "sigmoid": nn.Activations.SIGMOID,
-  "linear": nn.Activations.LINEAR
+  "tanh": nn.Activations.TANH,
+  "relu": nn.Activations.RELU,
+  "elu": nn.Activations.ELU,
+  "selu": nn.Activations.SELU,
+  "softplus": nn.Activations.SOFTPLUS,
+  "softsign": nn.Activations.SOFTSIGN
+};
+
+/** A map between names and loss functions. */
+export let losses: {[key: string]: nn.ErrorFunction} = {
+  "mse": nn.Errors.SQUARE,
+  "mae": nn.Errors.ABSOLUTE
 };
 
 /** A map between names and regularization functions. */
@@ -105,6 +115,7 @@ export class State {
 
   private static PROPS: Property[] = [
     {name: "activation", type: Type.OBJECT, keyMap: activations},
+    {name: "loss", type: Type.OBJECT, keyMap: losses},
     {name: "regularization", type: Type.OBJECT, keyMap: regularizations},
     {name: "batchSize", type: Type.NUMBER},
     {name: "dataset", type: Type.OBJECT, keyMap: datasets},
@@ -145,6 +156,7 @@ export class State {
   tutorial: string = null;
   percTrainData = 50;
   activation = nn.Activations.TANH;
+  loss = nn.Errors.SQUARE;
   regularization: nn.RegularizationFunction = null;
   problem = Problem.CLASSIFICATION;
   initOrigin = false;

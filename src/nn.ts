@@ -99,6 +99,12 @@ export class Errors {
                0.5 * Math.pow(output - target, 2),
     der: (output: number, target: number) => output - target
   };
+  public static ABSOLUTE: ErrorFunction = {
+    error: (output: number, target: number) =>
+               Math.abs(output - target),
+    der: (output: number, target: number) => 
+               (output - target) / Math.abs(output - target)
+  };
 }
 
 /** Polyfill for TANH */
@@ -115,6 +121,17 @@ export class Errors {
 
 /** Built-in activation functions */
 export class Activations {
+  public static LINEAR: ActivationFunction = {
+    output: x => x,
+    der: x => 1
+  };
+  public static SIGMOID: ActivationFunction = {
+    output: x => 1 / (1 + Math.exp(-x)),
+    der: x => {
+      let output = Activations.SIGMOID.output(x);
+      return output * (1 - output);
+    }
+  };
   public static TANH: ActivationFunction = {
     output: x => (Math as any).tanh(x),
     der: x => {
@@ -126,16 +143,40 @@ export class Activations {
     output: x => Math.max(0, x),
     der: x => x <= 0 ? 0 : 1
   };
-  public static SIGMOID: ActivationFunction = {
-    output: x => 1 / (1 + Math.exp(-x)),
-    der: x => {
-      let output = Activations.SIGMOID.output(x);
-      return output * (1 - output);
+  private static EleFunction(x: number, alpha: number = 1.0): number {
+    var output = x < 0 ? Math.exp(x) - 1 : x;
+    if (alpha === 1.0) {
+      return output;
+    } else {
+      return  (x > 0) ? output : alpha * output;
     }
   };
-  public static LINEAR: ActivationFunction = {
-    output: x => x,
-    der: x => 1
+  public static ELU: ActivationFunction = {
+    output: x => Activations.EleFunction(x),
+    der: x => {
+      let output = Activations.EleFunction(x);
+      return x < 0 ? output + 1 : 1;
+    }
+  };
+  private static alpha = 1.6732632423543772848170429916717;
+  private static scale = 1.0507009873554804934193349852946;
+  public static SELU: ActivationFunction = {
+    output: x => Activations.scale * Activations.EleFunction(x, Activations.alpha),
+    der: x => {
+      let output = Activations.scale * Activations.EleFunction(x, Activations.alpha);
+      return x < 0 ? output + 1 : 1;
+    }
+  };
+  public static SOFTPLUS: ActivationFunction = {
+    output: x => Math.log(1 + Math.exp(x)),
+    der: x => Activations.SIGMOID.output(x)
+  };
+  public static SOFTSIGN: ActivationFunction = {
+    output: x => x / (1 + Math.abs(x)),
+    der: x => {
+      let root = 1 / (1 + Math.abs(x));
+      return root * root;
+    }
   };
 }
 
