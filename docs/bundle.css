@@ -296,12 +296,18 @@ header h1 .optional {
   flex-grow: 1;
   max-width: 180px;
   min-width: 110px;
-  margin-left: 30px;
-  margin-top: 6px;
+  margin: 6px 30px 0 0;
+
+}
+
+.data.column .control {
+  margin: 0;
 }
 
 #top-controls .control .label,
-#top-controls .control label {
+#top-controls .control label,
+.data.column .control .label,
+.data.column .control label {
   color: #777;
   font-size: 13px;
   display: block;
@@ -309,17 +315,20 @@ header h1 .optional {
   font-weight: 300;
 }
 
-#top-controls .control .value {
+#top-controls .control .value,
+.data.column .control .value {
   font-size: 24px;
   margin: 0;
   font-weight: 300;
 }
 
-#top-controls .control .select {
+#top-controls .control .select,
+.data.column .control .select {
   position: relative;
 }
 
-#top-controls .control select {
+#top-controls .control select,
+.data.column .control select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -327,19 +336,23 @@ header h1 .optional {
   background: none;
   border: none;
   border-radius: 0;
-  padding: 6px 0;
+  padding: 6px 2px;
   width: 100%;
+  height: 34px;
   font-size: 14px;
   border-bottom: solid 1px #ccc;
   color: #333;
   outline: none;
+  background-color: white;
 }
 
-#top-controls .control select:focus {
+#top-controls .control select:focus,
+.data.column .control select:focus {
   border-bottom-color: #183D4E;
 }
 
-#top-controls .control .select::after {
+#top-controls .control .select::after,
+.data.column .control .select::after {
   class: "material-icons";
   content: "arrow_drop_down";
   color: #999;
@@ -500,6 +513,10 @@ g.column rect {
 
 .data.column {
   width: 10%;
+}
+
+.data.column h4:nth-child(n + 2) {
+  padding: 20px 0 0 0;
 }
 
 .data.column .dataset-list {
