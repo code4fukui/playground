@@ -67,7 +67,7 @@ limitations under the License.
   <!-- Top Controls -->
   <div id="top-controls">
 
-    <div class="container l--page">
+    <div class="container l--page ui-prepare">
       <div><span class="da-ref-123">4</span> “手法” の選択： モデルの定義 </div>
       <div><span class="da-ref-123">5</span> “学習方法” の設計： モデルの生成</div>
       <div><span class="da-ref-123">6</span> 学習 ： トレーニング</div>
@@ -102,7 +102,7 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-outactiv">
+      <div class="control ui-activation">
         <label for="outactivs">活性化関数 (出力層)</label>
         <div class="select">
           <select id="outactivs">
@@ -225,7 +225,7 @@ limitations under the License.
 
       <div class="control ui-problem">
         <h4 for="problem">
-          <span class="da-ref-123">2</span> <span>問題種別</span>
+          <span class="da-ref-123 ui-prepare">2</span> <span>問題種別</span>
         </h4>
         <div class="select">
           <select id="problem">
@@ -237,7 +237,7 @@ limitations under the License.
 
       <div class="ui-dataset">
         <h4 class="title">
-          <span class="da-ref-123">3</span> <span>前処理</span>
+          <span class="da-ref-123 ui-prepare">3</span> <span>前処理</span>
         </h4>
         <p>どのデータセットを使いますか？</p>
         <div class="dataset-list">
@@ -285,7 +285,7 @@ limitations under the License.
     <div class="column features">
       <h4>
         <span>入力層</span></h4>
-      <p><span class="da-ref-123">3</span> <b>入力データ</b>として使いたい<b>特徴</b>を選択してください。</p>
+      <p><span class="da-ref-123 ui-prepare">3</span> <b>入力データ</b>として使いたい<b>特徴</b>を選択してください。</p>
       <div id="network">
         <svg id="svg" width="510" height="450">
           <defs>
@@ -348,7 +348,7 @@ limitations under the License.
     <!-- Output Column -->
     <div class="column output">
       <h4>
-        出力層 ⇒ <span class="da-ref-123">7</span> 評価
+        出力層 ⇒ <span class="da-ref-123 ui-prepare">7</span> 評価
       </h4>
       <div class="metrics">
         <div class="output-stats train">
@@ -414,8 +414,8 @@ limitations under the License.
             <span class="mdl-checkbox__label label">出力の離散化</span>
           </label>
         </div>
-        <h4>
-            <span class="da-ref-123">8</span> テスト ⇒ 完成
+        <h4 class="ui-testButton">
+            <span class="da-ref-123 ui-prepare">8</span> テスト ⇒ 完成
         </h4>
         <div class="ui-testButton">
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="generate-test-data">1つの点を自動生成してテスト</button>
