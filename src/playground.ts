@@ -960,6 +960,8 @@ function constructInput(x: number, y: number): number[] {
 
 function oneStep(): void {
   iter++;
+
+  var rest_of_batches = trainData.length % state.batchSize;
   trainData.forEach((point, i) => {
     let input = constructInput(point.x, point.y);
     nn.forwardProp(network, input);
@@ -968,6 +970,10 @@ function oneStep(): void {
       nn.updateWeights(network, state.learningRate, state.regularizationRate);
     }
   });
+  if (rest_of_batches !== 0) {
+    nn.updateWeights(network, state.learningRate, state.regularizationRate);
+  }
+
   // Compute the loss.
   lossTrain = getLoss(network, trainData);
   lossValidation = getLoss(network, validationData);
