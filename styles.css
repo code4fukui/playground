@@ -1054,6 +1054,7 @@ footer .links a:hover {
 
 #top-controls .mdl-slider {
   width: 100%;
+  min-width: 113px;
   margin: 0 10px 0 0;
 }
 
@@ -1062,6 +1063,11 @@ footer .links a:hover {
 }
 
 #top-controls  .batch-slider label {
+  height: 28px;
+  margin-bottom: 0;
+}
+
+#top-controls  .batch-slider .mdl-checkbox__ripple-container {
   width: 60px;
 }
 
