@@ -33,6 +33,12 @@ const MAX_DOMAIN = 6;
 const NUM_TEST_DATA = 1;
 const DECIMAL_PLACE = 2;
 
+let isIE = function() {
+  var userAgent = navigator.userAgent;
+  return userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident') !== -1;
+};
+let inputEvent = (isIE()) ? "change" : "input";
+
 let mainWidth;
 
 // More scrolling
@@ -434,7 +440,7 @@ function makeGUI() {
   noise.property("value", state.noise);
   d3.select("label[for='noise'] .value").text(state.noise);
 
-  let batchSize = d3.select("#batchSize").on("input", function() {
+  let batchSize = d3.select("#batchSize").on(inputEvent, function() {
     state.batchSize = this.value;
     setBatchStatus();
     parametersChanged = true;

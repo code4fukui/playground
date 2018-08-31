@@ -64,13 +64,15 @@ limitations under the License.
     <h1 class="l--page"><b>ニューラル ネットワーク</b> に、<span class="optional">いますぐ</span>ブラウザー上で触れてみよう！<br>大丈夫、壊れたりしないから。好きにいじってみてね。</h1>
   </header>
 
+  <!--[if IE]>Internet Explorer はサポートしていません。本サービスは、 Chrome をお使いください。<![endif]-->
+
   <!-- Top Controls -->
   <div id="top-controls">
 
-    <div class="container l--page ui-prepare">
-      <div><span class="da-ref-123">4</span> “手法” の選択： モデルの定義 </div>
-      <div><span class="da-ref-123">5</span> “学習方法” の設計： モデルの生成</div>
-      <div><span class="da-ref-123">6</span> 学習 ： トレーニング</div>
+    <div class="container l--page ui-tlabel">
+      <div class="ui-cnum4"><span class="da-ref-123">4</span> “手法” の選択： モデルの定義 </div>
+      <div class="ui-cnum5"><span class="da-ref-123">5</span> “学習方法” の設計： モデルの生成</div>
+      <div class="ui-cnum6"><span class="da-ref-123">6</span> 学習 ： トレーニング</div>
     </div>
 
     <div class="container l--page">
@@ -107,7 +109,8 @@ limitations under the License.
         <div class="select">
           <select id="outactivs">
               <option value="classification" id="out-tanh">Tanh (分類)</option>
-              <option value="regression" id="out-linear">線形 (回帰)</option>
+              <option value="softmax" disabled>ソフトマックス (分類)</option>
+              <option value="regression" id="out-linear">線形 = 恒等関数 (回帰)</option>
           </select>
         </div>
       </div>
@@ -146,8 +149,10 @@ limitations under the License.
         <label for="losses">損失関数</label>
         <div class="select">
           <select id="losses">
-            <option value="mse">平均二乗誤差</option>
-            <option value="mae">平均絶対誤差</option>
+            <option value="mse">平均二乗誤差 (主に回帰)</option>
+            <option value="mae">平均絶対誤差 (主に回帰)</option>
+            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
+            <option value="categorical_crossentropy" disabled>交差エントロピー (他クラス分類)</option>
           </select>
         </div>
       </div>
@@ -194,6 +199,12 @@ limitations under the License.
         <div class="select">
           <select id="optimizers">
             <option value="sgd">SGD</option>
+            <option value="adadelta" disabled>Adadelta</option>
+            <option value="adamax" disabled>Adamax</option>
+            <option value="adam" disabled>Adam</option>
+            <option value="rmsprop" disabled>RMSProp</option>
+            <option value="adagrad" disabled>Adagrad</option>
+            <option value="nadam" disabled>Nadam</option>
           </select>
         </div>
       </div>
@@ -212,20 +223,20 @@ limitations under the License.
     <!--  Data Column-->
     <div class="column data">
 
-      <div class="control ui-prepare">
+      <div class="control ui-tlabel ui-prepare">
         <h4 for="prepare">
-          <span class="da-ref-123">1</span> <span>データ準備</span>
+          <span class="da-ref-123 ui-cnum1">1</span> <span>データ準備</span>
         </h4>
         <div class="select">
           <select id="prepare">
-            <option value="regression">座標点データ</option>
+            <option value="regression">座標点</option>
           </select>
         </div>
       </div>
 
       <div class="control ui-problem">
-        <h4 for="problem">
-          <span class="da-ref-123 ui-prepare">2</span> <span>問題種別</span>
+        <h4 for="problem" class="ui-tlabel">
+          <span class="da-ref-123 ui-cnum2">2</span> <span>問題種別</span>
         </h4>
         <div class="select">
           <select id="problem">
@@ -236,10 +247,10 @@ limitations under the License.
       </div>
 
       <div class="ui-dataset">
-        <h4 class="title">
-          <span class="da-ref-123 ui-prepare">3</span> <span>前処理</span>
+        <h4 class="title ui-tlabel">
+          <span class="da-ref-123 ui-cnum3">3</span> <span>前処理</span>
         </h4>
-        <p>どのデータセットを使いますか？</p>
+        <p class="ds-desc">どのデータセットを使いますか？</p>
         <div class="dataset-list">
           <div class="dataset" title="円（Circle）">
             <canvas class="data-thumbnail" data-dataset="circle"></canvas>
@@ -263,7 +274,7 @@ limitations under the License.
       </div>
       <div>
         <div class="ui-percTrainData">
-          <label for="percTrainData">データの何％を訓練【Training】用に？ (残りは精度検証【Validation】用) :&nbsp;&nbsp;<span class="value">XX</span>％</label>
+          <label for="percTrainData">データの何％を訓練<span class="ui-description">【Training】</span>用に？ <span class="ui-description">(残りは精度検証【Validation】用) </span>:&nbsp;&nbsp;<span class="value">XX</span>％</label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="percTrainData" min="10" max="90" step="10">
           </p>
@@ -285,7 +296,7 @@ limitations under the License.
     <div class="column features">
       <h4>
         <span>入力層</span></h4>
-      <p><span class="da-ref-123 ui-prepare">3</span> <b>入力データ</b>として使いたい<b>特徴</b>を選択してください。</p>
+      <p class="ui-description"><span class="da-ref-123 ui-cnum3 ui-tlabel">3</span> <b>入力データ</b>として使いたい<b>特徴</b>を選択してください。</p>
       <div id="network">
         <svg id="svg" width="510" height="450">
           <defs>
@@ -299,7 +310,7 @@ limitations under the License.
           <div style="font-size:10px">クリックすると、値を手動で編集できます。</div>
           <div><span class="type">重み／バイアス</span> は <span class="value">0.2</span><span><input type="number"/></span> 。</div>
         </div>
-        <div class="callout thumbnail">
+        <div class="callout thumbnail ui-description">
           <svg viewBox="0 0 30 30">
             <defs>
               <marker id="arrow" markerWidth="5" markerHeight="5" refx="5" refy="2.5" orient="auto" markerUnits="userSpaceOnUse">
@@ -312,7 +323,7 @@ limitations under the License.
             これは、この <b>ニューロン (neuron)</b> の出力内容です。マウスを載せると、右の出力の場所に拡大します。
           </div>
         </div>
-        <div class="callout weights">
+        <div class="callout weights ui-description">
           <svg viewBox="0 0 30 30">
             <defs>
               <marker id="arrow" markerWidth="5" markerHeight="5" refx="5" refy="2.5" orient="auto" markerUnits="userSpaceOnUse">
@@ -348,7 +359,7 @@ limitations under the License.
     <!-- Output Column -->
     <div class="column output">
       <h4>
-        出力層 ⇒ <span class="da-ref-123 ui-prepare">7</span> 評価
+        出力層 ⇒ <span class="da-ref-123 ui-cnum7 ui-tlabel">7</span> 評価
       </h4>
       <div class="metrics">
         <div class="output-stats train">
@@ -415,7 +426,7 @@ limitations under the License.
           </label>
         </div>
         <h4 class="ui-testButton">
-            <span class="da-ref-123 ui-prepare">8</span> テスト ⇒ 完成
+            <span class="da-ref-123 ui-cnum8 ui-tlabel">8</span> テスト ⇒ 完成
         </h4>
         <div class="ui-testButton">
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect" id="generate-test-data">1つの点を自動生成してテスト</button>
@@ -488,6 +499,8 @@ limitations under the License.
           　<b>&sinX_hide=true</b><br>
           　<b>&sinY_hide=true</b><br>
           　<b>&prepare_hide=true</b><br>
+          　<b>&description_hide=true</b><br>
+          　<b>&cnum1_hide=true</b> ～ <b>&cnum8_hide=true</b><br>
           　<b>&numNodes1_hide=true</b> ～ <b>&numNodes6_hide=true</b><br>
           
           　ちなみに、上記のチェックボックスでは、<b>＜既存パラーメーター名＞_hide = true</b> が自動的に指定されます。これと同じことを手動でする必要があります。
