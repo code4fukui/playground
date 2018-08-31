@@ -104,13 +104,14 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-activation">
-        <label for="outactivs">活性化関数 (出力層)</label>
+      <div class="control ui-loss">
+        <label for="losses">損失関数</label>
         <div class="select">
-          <select id="outactivs">
-              <option value="classification" id="out-tanh">Tanh (分類)</option>
-              <option value="softmax" disabled>ソフトマックス (分類)</option>
-              <option value="regression" id="out-linear">線形 = 恒等関数 (回帰)</option>
+          <select id="losses">
+            <option value="mse">平均二乗誤差 (主に回帰)</option>
+            <option value="mae">平均絶対誤差 (主に回帰)</option>
+            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
+            <option value="categorical_crossentropy" disabled>交差エントロピー (他クラス分類)</option>
           </select>
         </div>
       </div>
@@ -145,14 +146,13 @@ limitations under the License.
 
     <div class="container l--page">
 
-      <div class="control ui-loss">
-        <label for="losses">損失関数</label>
+      <div class="control ui-activation">
+        <label for="outactivs">活性化関数 (出力層)</label>
         <div class="select">
-          <select id="losses">
-            <option value="mse">平均二乗誤差 (主に回帰)</option>
-            <option value="mae">平均絶対誤差 (主に回帰)</option>
-            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
-            <option value="categorical_crossentropy" disabled>交差エントロピー (他クラス分類)</option>
+          <select id="outactivs">
+              <option value="classification" id="out-tanh">Tanh (分類)</option>
+              <option value="softmax" disabled>ソフトマックス (分類)</option>
+              <option value="regression" id="out-linear">線形 = 恒等関数 (回帰)</option>
           </select>
         </div>
       </div>
