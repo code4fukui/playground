@@ -104,28 +104,37 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-loss">
-        <label for="losses">損失関数</label>
+      <div class="control ui-learningRate">
+        <label for="learningRate">学習率</label>
         <div class="select">
-          <select id="losses">
-            <option value="mse">平均二乗誤差 (主に回帰)</option>
-            <option value="mae">平均絶対誤差 (主に回帰)</option>
-            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
-            <option value="categorical_crossentropy" disabled>交差エントロピー (他クラス分類)</option>
+          <select id="learningRate">
+            <option value="0.00001">0.00001</option>
+            <option value="0.0001">0.0001</option>
+            <option value="0.001">0.001</option>
+            <option value="0.003">0.003</option>
+            <option value="0.01">0.01</option>
+            <option value="0.03">0.03</option>
+            <option value="0.1">0.1</option>
+            <option value="0.3">0.3</option>
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="10">10</option>
           </select>
         </div>
       </div>
 
-      <div class="control ui-batchSize">
-        <label for="batchSize">バッチサイズ:&nbsp;&nbsp;<span class="value">XX</span>個</label>
-        <div class="batch-slider">
-          <p class="slider" id="batch-size-slider">
-            <input class="mdl-slider mdl-js-slider" type="range" id="batchSize" min="1" max="30" step="1">
-          </p>
-          <label class="ui-batchFull mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="batch-full-size">
-            <input type="checkbox" id="batch-full-size" class="mdl-checkbox__input" checked>
-            <span class="mdl-checkbox__label label">全部</span>
-          </label>
+      <div class="control ui-optimizer">
+        <label for="optimizers">最適化</label>
+        <div class="select">
+          <select id="optimizers">
+            <option value="sgd">SGD</option>
+            <option value="adadelta" disabled>Adadelta</option>
+            <option value="adamax" disabled>Adamax</option>
+            <option value="adam" disabled>Adam</option>
+            <option value="rmsprop" disabled>RMSProp</option>
+            <option value="adagrad" disabled>Adagrad</option>
+            <option value="nadam" disabled>Nadam</option>
+          </select>
         </div>
       </div>
 
@@ -175,37 +184,28 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-learningRate">
-        <label for="learningRate">学習率</label>
+      <div class="control ui-loss">
+        <label for="losses">損失関数</label>
         <div class="select">
-          <select id="learningRate">
-            <option value="0.00001">0.00001</option>
-            <option value="0.0001">0.0001</option>
-            <option value="0.001">0.001</option>
-            <option value="0.003">0.003</option>
-            <option value="0.01">0.01</option>
-            <option value="0.03">0.03</option>
-            <option value="0.1">0.1</option>
-            <option value="0.3">0.3</option>
-            <option value="1">1</option>
-            <option value="3">3</option>
-            <option value="10">10</option>
+          <select id="losses">
+            <option value="mse">平均二乗誤差 (主に回帰)</option>
+            <option value="mae">平均絶対誤差 (主に回帰)</option>
+            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
+            <option value="categorical_crossentropy" disabled>交差エントロピー (他クラス分類)</option>
           </select>
         </div>
       </div>
 
-      <div class="control ui-optimizer">
-        <label for="optimizers">最適化</label>
-        <div class="select">
-          <select id="optimizers">
-            <option value="sgd">SGD</option>
-            <option value="adadelta" disabled>Adadelta</option>
-            <option value="adamax" disabled>Adamax</option>
-            <option value="adam" disabled>Adam</option>
-            <option value="rmsprop" disabled>RMSProp</option>
-            <option value="adagrad" disabled>Adagrad</option>
-            <option value="nadam" disabled>Nadam</option>
-          </select>
+      <div class="control ui-batchSize">
+        <label for="batchSize">バッチサイズ:&nbsp;&nbsp;<span class="value">XX</span>個</label>
+        <div class="batch-slider">
+          <p class="slider" id="batch-size-slider">
+            <input class="mdl-slider mdl-js-slider" type="range" id="batchSize" min="1" max="30" step="1">
+          </p>
+          <label class="ui-batchFull mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="batch-full-size">
+            <input type="checkbox" id="batch-full-size" class="mdl-checkbox__input" checked>
+            <span class="mdl-checkbox__label label">全部</span>
+          </label>
         </div>
       </div>
 
