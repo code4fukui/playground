@@ -1042,10 +1042,7 @@ footer .links a:hover {
 
 .mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
   background-color: #183D4E;
-}
-
-.mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
-  background-color: #183D4E;
+  -webkit-mask: unset;
 }
 
 .mdl-checkbox.is-checked .mdl-checkbox__box-outline {
