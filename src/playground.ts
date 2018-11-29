@@ -585,6 +585,32 @@ function updateWeightsUI(network: nn.Node[][], container: d3.Selection<any>) {
   }
 }
 
+function drawOutputBias(cx: number, cy: number, nodeId: string, container: d3.Selection<any>, node?: nn.Node) {
+  let x = cx - RECT_SIZE / 2 - 3;
+  let y = cy - RECT_SIZE / 2;
+
+  let nodeGroup = container.append("g")
+    .attr({
+      "class": "node",
+      "id": `node${nodeId}`,
+      "transform": `translate(${x},${y})`
+    });
+
+  // Draw the node's bias.
+  nodeGroup.append("rect")
+    .attr({
+      id: `bias-${nodeId}`,
+      x: -BIAS_SIZE - 2,
+      y: RECT_SIZE - BIAS_SIZE + 3,
+      width: BIAS_SIZE,
+      height: BIAS_SIZE,
+    }).on("mouseenter", function() {
+      updateHoverCard(HoverType.BIAS, node, d3.mouse(container.node()));
+    }).on("mouseleave", function() {
+      updateHoverCard(null);
+    });
+}
+
 function drawNode(cx: number, cy: number, nodeId: string, isInput: boolean,
     container: d3.Selection<any>, node?: nn.Node) {
   let x = cx - RECT_SIZE / 2;
@@ -801,6 +827,9 @@ function drawNetwork(network: nn.Node[][]): void {
   let node = network[numLayers - 1][0];
   let cy = nodeIndexScale(0) + RECT_SIZE / 2;
   node2coord[node.id] = {cx, cy};
+
+  drawOutputBias(cx, cy, node.id, container, node);
+
   // Draw links.
   for (let i = 0; i < node.inputLinks.length; i++) {
     let link = node.inputLinks[i];
