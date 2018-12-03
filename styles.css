@@ -856,14 +856,14 @@ g.column rect {
   width: 275px;
 }
 
-.metrics {
+.ui-metrics {
   position: relative;
   font-weight: 300;
   font-size: 13px;
   height: 60px;
 }
 
-.stats {
+.ui-stats {
   font-weight: 300;
   font-size: 13px;
   margin-bottom: 8px;
@@ -878,7 +878,7 @@ g.column rect {
   height: 55px;
 }
 
-.metrics .train, .stats .train {
+.ui-metrics .train, .ui-stats .train {
   color: #777;
 }
 
