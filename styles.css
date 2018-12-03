@@ -809,6 +809,12 @@ g.column rect {
   width: 40%;
 }
 
+#main-part .hidden-layers .ui-network {
+  display: inline;
+  float: left;
+  margin-top: -28px;
+}
+
 #main-part .hidden-layers h4 {
   -webkit-justify-content: center;
   justify-content: center;
