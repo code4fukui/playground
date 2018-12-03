@@ -87,7 +87,6 @@ let HIDABLE_CONTROLS = [
   ["☑ 精度検証データ表示", "showValidationData"],
   ["☑ テストデータ表示", "showTestData"],
   ["☑ 出力の離散化", "discretize"],
-  ["テスト ボタン", "testButton"],
   ["再生 ボタン", "playButton"],
   ["ステップ ボタン", "stepButton"],
   ["リセット ボタン", "resetButton"],
@@ -235,9 +234,13 @@ let heatMap =
     new HeatMap(300, DENSITY, xDomain, xDomain, d3.select("#heatmap"),
         {showAxes: true},
         (coords) => {
-          var testPoints = getTestPoint(coords);
-          updateDataTable(testPoints, (state.problem == Problem.CLASSIFICATION));
-          heatMap.updateTestPoints(testPoints);
+          if (!state.showTestData) {
+            alert("［☑ テストデータ表示］をオンにしてください。");
+            return;
+          }
+          testData = getTestPoint(coords);
+          updateDataTable(testData, (state.problem == Problem.CLASSIFICATION));
+          heatMap.updateTestPoints(testData);
         }
       );
 let linkWidthScale = d3.scale.linear()
@@ -308,9 +311,13 @@ function makeGUI() {
   });
 
   d3.select("#generate-test-data").on("click", () => {
-    var testPoints = generateTestPoints(NUM_TEST_DATA);
-    updateDataTable(testPoints, (state.problem == Problem.CLASSIFICATION));
-    heatMap.updateTestPoints(testPoints);
+    if (!state.showTestData) {
+      alert("［☑ テストデータ表示］をオンにしてください。");
+      return;
+    }
+    testData = generateTestPoints(NUM_TEST_DATA);
+    updateDataTable(testData, (state.problem == Problem.CLASSIFICATION));
+    heatMap.updateTestPoints(testData);
   });
 
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");

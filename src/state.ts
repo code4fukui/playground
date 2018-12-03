@@ -138,7 +138,6 @@ export class State {
     {name: "ySquared", type: Type.BOOLEAN},
     {name: "sinX", type: Type.BOOLEAN},
     {name: "sinY", type: Type.BOOLEAN},
-    {name: "testButton", type: Type.BOOLEAN},
     {name: "tutorial", type: Type.STRING},
     {name: "problem", type: Type.OBJECT, keyMap: problems},
     {name: "initOrigin", type: Type.BOOLEAN},
@@ -163,7 +162,6 @@ export class State {
   problem = Problem.CLASSIFICATION;
   initOrigin = false;
   hideText = false;
-  testButton = false;
   numHiddenLayers = 1;
   hiddenLayerControls: any[] = [];
   networkShape: number[] = [4, 2];
