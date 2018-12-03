@@ -1279,6 +1279,14 @@ function hideControls() {
     controls.style("display", "none");
   });
 
+  if (!state.activspacer) {
+    let controls = d3.selectAll(`.ui-activspacer`);
+    if (controls.size() === 0) {
+      console.warn(`0 html elements found with class .ui-activspacer`);
+    }
+    controls.style("display", "none");
+  }
+
   // Also add checkbox for each hidable control in the "use it in classrom"
   // section.
   let hideControls = d3.select(".hide-controls");
