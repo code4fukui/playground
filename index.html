@@ -249,9 +249,6 @@ limitations under the License.
       </div>
 
       <div class="ui-dataset">
-        <h4 class="title ui-tlabel">
-          <span class="da-ref-123 ui-cnum3">3</span> <span>前処理</span>
-        </h4>
         <p class="ds-desc">どのデータセットを使いますか？</p>
         <div class="dataset-list">
           <div class="dataset" title="円（Circle）">
@@ -274,7 +271,11 @@ limitations under the License.
           </div>
         </div>
       </div>
+
       <div>
+        <h4 class="title ui-tlabel">
+          <span class="da-ref-123 ui-cnum3">3</span> <span>前処理</span>
+        </h4>
         <div class="ui-percTrainData">
           <label for="percTrainData">データの何％を訓練<span class="ui-description">【Training】</span>用に？ <span class="ui-description">(残りは精度検証【Validation】用) </span>:&nbsp;&nbsp;<span class="value">XX</span>％</label>
           <p class="slider">
@@ -290,8 +291,8 @@ limitations under the License.
         <button class="basic-button" id="data-regen-button" title="データの再生成">
           データの再生成
         </button>
-
       </div>
+
     </div>
 
     <!-- Features Column -->
@@ -519,10 +520,10 @@ limitations under the License.
       <p><b>※Tips 5：</b> 各パラメーターの初期値は以下のとおりです。<br>
           ［問題種別］関連のパラメーター：<br>
           　<b>【problem】</b> classification<br>
-          <br>
-          ［データ生成］関連のパラメーター：<br>
           　<b>【dataset】</b> circle<br>
           　<b>【regDataset】</b> reg-plane<br>
+          <br>
+          ［前処理／データ生成］関連のパラメーター：<br>
           　<b>【percTrainData】</b> 50<br>
           　<b>【noise】</b> 0<br>
           　<b>【seed】</b> 0.XXXXX（ランダム）<br>
