@@ -106,6 +106,18 @@ limitations under the License.
         </div>
       </div>
 
+      <div class="control ui-loss">
+        <label for="losses">損失関数</label>
+        <div class="select">
+          <select id="losses">
+            <option value="mse">平均二乗誤差 (主に回帰)</option>
+            <option value="mae">平均絶対誤差 (主に回帰)</option>
+            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
+            <option value="categorical_crossentropy" disabled>交差エントロピー (多クラス分類)</option>
+          </select>
+        </div>
+      </div>
+
       <div class="control ui-learningRate">
         <label for="learningRate">学習率</label>
         <div class="select">
@@ -121,21 +133,6 @@ limitations under the License.
             <option value="1">1</option>
             <option value="3">3</option>
             <option value="10">10</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="control ui-optimizer">
-        <label for="optimizers">最適化</label>
-        <div class="select">
-          <select id="optimizers">
-            <option value="sgd">SGD</option>
-            <option value="adadelta" disabled>Adadelta</option>
-            <option value="adamax" disabled>Adamax</option>
-            <option value="adam" disabled>Adam</option>
-            <option value="rmsprop" disabled>RMSProp</option>
-            <option value="adagrad" disabled>Adagrad</option>
-            <option value="nadam" disabled>Nadam</option>
           </select>
         </div>
       </div>
@@ -186,14 +183,17 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="control ui-loss">
-        <label for="losses">損失関数</label>
+      <div class="control ui-optimizer">
+        <label for="optimizers">最適化</label>
         <div class="select">
-          <select id="losses">
-            <option value="mse">平均二乗誤差 (主に回帰)</option>
-            <option value="mae">平均絶対誤差 (主に回帰)</option>
-            <option value="binary_crossentropy" disabled>交差エントロピー (2クラス分類)</option>
-            <option value="categorical_crossentropy" disabled>交差エントロピー (多クラス分類)</option>
+          <select id="optimizers">
+            <option value="sgd">SGD</option>
+            <option value="adadelta" disabled>Adadelta</option>
+            <option value="adamax" disabled>Adamax</option>
+            <option value="adam" disabled>Adam</option>
+            <option value="rmsprop" disabled>RMSProp</option>
+            <option value="adagrad" disabled>Adagrad</option>
+            <option value="nadam" disabled>Nadam</option>
           </select>
         </div>
       </div>
