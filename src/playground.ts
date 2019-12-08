@@ -28,6 +28,7 @@ import {
 } from "./state";
 import {Example2D, shuffle, Test2D} from "./dataset";
 import {AppendingLineChart} from "./linechart";
+import * as d3 from 'd3';
 
 const MAX_DOMAIN = 6;
 const NUM_TEST_DATA = 1;
