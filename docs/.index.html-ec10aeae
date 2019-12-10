@@ -368,7 +368,7 @@ limitations under the License.
       </h4>
       <div class="ui-metrics">
         <div class="output-stats train">
-          <span>Train loss (誤差)</span>
+          <span>Train loss (損失)</span>
           <div class="value" id="loss-train"></div>
         </div>
         <div class="output-stats ui-percTrainData">
@@ -463,7 +463,7 @@ limitations under the License.
       <h2>えっと、ニューラル ネットワークって何？</h2>
       <p>データから学習するコンピュータープログラムを構築する技術のこと。「人間の脳の働き」を大ざっぱに真似たものです。<br>
       まず、「ニューロン」（neuron： 神経細胞）と呼ばれる単位機能を層（layer）の中に複数作成し、また層も複数作成したうえで、各層間でそれぞれのニューロンがメッセージをやり取りできるように結合（connections）させて、ネットワークを形成します。<br>
-      次に、そのネットワークに問題を繰り返し与えて、解かせていきます。これが学習です。学習のたびに、正解に導く結合は強め、不正解に導く結合は弱めていくことで、問題に対して正解を答える精度（accuracy）が徐々に高まっていきます。逆に言うと、誤差（error、もしくはloss：損失）が小さくなっていくということです。</p>
+      次に、そのネットワークに問題を繰り返し与えて、解かせていきます。これが学習です。学習のたびに、正解に導く結合は強め、不正解に導く結合は弱めていくことで、問題に対して正解を答える精度（accuracy：正解率）が徐々に高まっていきます。逆に言うと、誤差（error、もしくはloss：損失）が小さくなっていくということです。</p>
     </div>
 
     <div class="l--body">
