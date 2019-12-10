@@ -382,7 +382,7 @@ limitations under the License.
 
         <div class="ui-stats" id="acc-stats">
           <div class="output-stats train">
-            <span>Train acc (精度)</span>
+            <span>Train acc (正解率)</span>
             <div class="value" id="acc-train"></div>
           </div>
           <div class="output-stats ui-percTrainData">
