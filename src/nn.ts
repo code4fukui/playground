@@ -163,8 +163,7 @@ export class Activations {
   public static SELU: ActivationFunction = {
     output: x => Activations.scale * Activations.EleFunction(x, Activations.alpha),
     der: x => {
-      let output = Activations.scale * Activations.EleFunction(x, Activations.alpha);
-      return x < 0 ? output + 1 : 1;
+      return x < 0 ? Activations.scale * Activations.alpha * Math.exp(x) : Activations.scale;
     }
   };
   public static SOFTPLUS: ActivationFunction = {
