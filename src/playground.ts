@@ -103,7 +103,7 @@ let HIDABLE_CONTROLS = [
   ["ノイズ レベル", "noise"],
   ["バッチ サイズ", "batchSize"],
   ["バッチ 全部", "batchFull"],
-  ["隠れ層 ⊕⊖ ボタン", "numHiddenLayers"]
+  ["中間層 ⊕⊖ ボタン", "numHiddenLayers"]
 ];
 
 
@@ -1187,7 +1187,7 @@ function reset(onStartup=false) {
 
   //let suffix = state.numHiddenLayers !== 1 ? "s" : "";
   //d3.select("#layers-label").text("隠れ層" + suffix);
-  d3.select("#layers-label").text("隠れ層");
+  d3.select("#layers-label").text("中間層");
   d3.select("#num-layers").text(state.numHiddenLayers);
 
   // Make a simple network.

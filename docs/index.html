@@ -21,21 +21,21 @@ limitations under the License.
   <meta name="keywords" content="neural networks,machine learning,javascript">
 
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="ニューラルネットワーク Playground - Deep Insider"/>
-  <meta property="og:description" content="ニューラル ネットワークに、いますぐブラウザー上で触れてみよう！">
-  <meta property="og:url" content="https://deepinsider.github.io/playground/"/>
-  <meta property="og:image" content="https://deepinsider.github.io/playground/preview.png"/>
+  <meta property="og:title" content="AIの遊び場 - Code for FUKUI"/>
+  <meta property="og:description" content="ディープラーニング(AI)に、いますぐブラウザ上で触れてみよう！">
+  <meta property="og:url" content="https://code4fukui.github.io/playground/"/>
+  <meta property="og:image" content="https://code4fukui.github.io/playground/preview.png"/>
 
   <meta name="twitter:card" value="summary_large_image">
-  <meta name="twitter:title" content="ニューラルネットワーク Playground - Deep Insider">
-  <meta name="twitter:description" content="ニューラル ネットワークに、いますぐブラウザー上で触れてみよう！">
-  <meta name="twitter:url" content="https://deepinsider.github.io/playground/">
-  <meta name="twitter:image" content="https://deepinsider.github.io/playground/preview.png">
+  <meta name="twitter:title" content="AIの遊び場 - Code for FUKUI">
+  <meta name="twitter:description" content="ディープラーニング(AI)に、いますぐブラウザー上で触れてみよう！">
+  <meta name="twitter:url" content="https://code4fukui.github.io/playground/">
+  <meta name="twitter:image" content="https://code4fukui.github.io/playground/preview.png">
   <meta name="twitter:image:width" content="560">
   <meta name="twitter:image:height" content="295">
 
   <meta name="author" content="Daniel Smilkov and Shan Carter">
-  <title>ニューラルネットワーク Playground - Deep Insider</title>
+  <title>AIの遊び場 - Code for FUKUI</title>
   <link rel="stylesheet" href="bundle.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet" type="text/css">
   <script src="lib.js"></script>
@@ -53,7 +53,7 @@ limitations under the License.
 
 <body>
   <!-- GitHub link -->
-  <a class="github-link" href="https://github.com/DeepInsider/playground" title="Source on GitHub">
+  <a class="github-link" href="https://github.com/code4fukui/playground" title="Source on GitHub">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60.5 60.5" width="60" height="60">
       <polygon class="bg" points="60.5,60.5 0,0 60.5,0 "/>
       <path class="icon" d="M43.1,5.8c-6.6,0-12,5.4-12,12c0,5.3,3.4,9.8,8.2,11.4c0.6,0.1,0.8-0.3,0.8-0.6c0-0.3,0-1,0-2c-3.3,0.7-4-1.6-4-1.6c-0.5-1.4-1.3-1.8-1.3-1.8c-1.1-0.7,0.1-0.7,0.1-0.7c1.2,0.1,1.8,1.2,1.8,1.2c1.1,1.8,2.8,1.3,3.5,1c0.1-0.8,0.4-1.3,0.8-1.6c-2.7-0.3-5.5-1.3-5.5-5.9c0-1.3,0.5-2.4,1.2-3.2c-0.1-0.3-0.5-1.5,0.1-3.2c0,0,1-0.3,3.3,1.2c1-0.3,2-0.4,3-0.4c1,0,2,0.1,3,0.4c2.3-1.6,3.3-1.2,3.3-1.2c0.7,1.7,0.2,2.9,0.1,3.2c0.8,0.8,1.2,1.9,1.2,3.2c0,4.6-2.8,5.6-5.5,5.9c0.4,0.4,0.8,1.1,0.8,2.2c0,1.6,0,2.9,0,3.3c0,0.3,0.2,0.7,0.8,0.6c4.8-1.6,8.2-6.1,8.2-11.4C55.1,11.2,49.7,5.8,43.1,5.8z"/>
@@ -61,7 +61,7 @@ limitations under the License.
   </a>
   <!-- Header -->
   <header>
-    <h1 class="l--page"><b>ニューラル ネットワーク</b> に、<span class="optional">いますぐ</span>ブラウザー上で触れてみよう！<br>大丈夫、壊れたりしないから。好きにいじってみてね。</h1>
+    <h1 class="l--page"><b>AIの遊び場</b><br><small><b>ディープラーニング(AI)</b> に、<span class="optional">いますぐ</span>ブラウザ上で触れてみよう！<br>壊れたりしないから大丈夫。好きにいじってみてね。</small></h1>
   </header>
 
   <!--[if IE]>Internet Explorer はサポートしていません。本サービスは、 Chrome をお使いください。<![endif]-->
@@ -80,7 +80,7 @@ limitations under the License.
       <div class="control ui-activspacer"></div>
 
       <div class="control ui-activation">
-        <label for="activations">活性化関数 (隠れ層)</label>
+        <label for="activations">活性化関数 (中間層)</label>
         <div class="select">
           <select id="activations">
             <option value="linear">線形</option>
@@ -460,10 +460,12 @@ limitations under the License.
 
   <article id="article-text">
     <div class="l--body">
-      <h2>えっと、ニューラル ネットワークって何？</h2>
+      <h2>えっと、ディープラーニング(AI)って何？</h2>
       <p>データから学習するコンピュータープログラムを構築する技術のこと。「人間の脳の働き」を大ざっぱに真似たものです。<br>
       まず、「ニューロン」（neuron： 神経細胞）と呼ばれる単位機能を層（layer）の中に複数作成し、また層も複数作成したうえで、各層間でそれぞれのニューロンがメッセージをやり取りできるように結合（connections）させて、ネットワークを形成します。<br>
-      次に、そのネットワークに問題を繰り返し与えて、解かせていきます。これが学習です。学習のたびに、正解に導く結合は強め、不正解に導く結合は弱めていくことで、問題に対して正解を答える精度（accuracy：正解率）が徐々に高まっていきます。逆に言うと、誤差（error、もしくはloss：損失）が小さくなっていくということです。</p>
+      次に、そのネットワークに問題を繰り返し与えて、解かせていきます。これが学習です。学習のたびに、正解に導く結合は強め、不正解に導く結合は弱めていくことで、問題に対して正解を答える精度（accuracy：正解率）が徐々に高まっていきます。逆に言うと、誤差（error、もしくはloss：損失）が小さくなっていくということです。
+      これをニューラルネットワークと呼び、中間層が2層以上のものをディープラーニングと呼び、AI（人工知能）の実装として使われています。
+    </p>
     </div>
 
     <div class="l--body">
@@ -472,7 +474,7 @@ limitations under the License.
         色の使い方が微妙に異なる部分はありますが、基本的に、青色は「正の値」（positive values）を表し、オレンジ色は「負の値」（negative values）を表しています。</p>
         <p>入力層（input layer）においては、<b>データの点</b>（points： 小さな円で表現されている）それぞれが、もともと青色かオレンジ色で着色されています（［出力］のグラフ図を参照）。<br>
         つまり、各点が初めから「正の値」か「負の値」（正解ラベル）に対応付けられているということです。</p>
-        <p>隠れ層（hidden layers）においては、ニューロン間の結合の<b>重み</b>（weights）によって、線が着色されています。<br>
+        <p>中間層（hidden layers）においては、ニューロン間の結合の<b>重み</b>（weights）によって、線が着色されています。<br>
         青色の線は「正の重み」（positive weight）を表し、オレンジ色の線は「負の重み」（negative weight）を表しています。<br>
         正の重みとは、その線の接続元にあるニューロンから与えられた出力を、他のニューロンの入力として使用する可能性が高い（＝発火を促進する）ということです。<br>
         逆に、負の重みとは、使用しない可能性が高い（＝発火を抑制する）ということです。<br>
@@ -489,7 +491,7 @@ limitations under the License.
 
     <div class="l--body">
       <h2>これはすごいね、他でも使っていい？</h2>
-      <p>ぜひ、やってみてください！ ニューラルネットワークが少しでもアクセスしやすく学びやすくなることを願って、<a href="https://github.com/tensorflow/playground">GitHub（オリジナル版）</a>、もしくは独自運用と日本語化を行っている <a href="https://github.com/DeepInsider/playground">Deep Insider による Fork 版</a> でオープンソース（<a href="https://github.com/tensorflow/playground/blob/master/LICENSE">Apache 2.0 ライセンス</a>）にしています。このライセンスに従ってさえいれば、どんな使い方でも自由です。また、もし追加や変更の提案があれば、ぜひ<a href="https://github.com/tensorflow/playground/issues">お知らせください</a>。</p>
+      <p>ぜひ、やってみてください！ ニューラルネットワークが少しでもアクセスしやすく学びやすくなることを願って、<a href="https://github.com/tensorflow/playground">GitHub（オリジナル版）</a>、もしくは独自運用と日本語化を行っている <a href="https://github.com/DeepInsider/playground">Deep Insider による Fork 版</a>、もしくは少し調整した <a href="https://github.com/code4fukui/playground">Code for FUKUI による Fork 版</a> でオープンソース（<a href="https://github.com/tensorflow/playground/blob/master/LICENSE">Apache 2.0 ライセンス</a>）にしています。このライセンスに従ってさえいれば、どんな使い方でも自由です。また、もし追加や変更の提案があれば、ぜひ<a href="https://github.com/tensorflow/playground/issues">お知らせください</a>。</p>
       <p>さらに、特定のトピックやレッスンに対応する Playground（実験場）として調整できるように、いくつかのカスタマイズ項目を提供しています。具体的には以下から、「表示したい機能」を選択するだけです。あとは、　<a class="hide-controls-link" href="#">このリンク</a>　を保存するか、　<a href="javascript:location.reload();">このページを再読み込み</a>　してください。</p>
       <div class="hide-controls"></div>
       <p><br><b>※注意：</b> ［損失関数］欄にある「平均二乗誤差」は、実際には「二乗和誤差」になっています。<br>
@@ -544,7 +546,7 @@ limitations under the License.
           　<b>【sinX】</b> false<br>
           　<b>【sinY】</b> false<br>
           <br>
-          ［隠れ層］関連のパラメーター：<br>
+          ［中間層］関連のパラメーター：<br>
           　<b>【networkShape】</b> 4,2<br>
           <br>
           ［ニューロン］関連のパラメーター：<br>
@@ -607,7 +609,7 @@ limitations under the License.
         </svg>
       </a>
       <div class="links">
-        <a href="https://github.com/DeepInsider/playground">Source on GitHub</a> <a href="https://github.com/tensorflow/playground">( Forked from tensorflow/playground. Apache License 2.0 )</a>
+        <a href="https://github.com/code4fukui/playground">Source on GitHub</a> <a href="https://github.com/DeepInsider/playground">( Forked from DeepInsider/playground. Apache License 2.0 )</a> <a href="https://github.com/tensorflow/playground">( Forked from tensorflow/playground. Apache License 2.0 )</a>
       </div>
     </div>
   </footer>

@@ -35,6 +35,10 @@ h1 b {
   color: rgba(255, 255, 255, 1);
 }
 
+h1 small {
+  opacity: .9;
+}
+
 h2 {
   margin: 5px 0;
   font-weight: 300;
