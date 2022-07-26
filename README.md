@@ -35,6 +35,6 @@ This project is forked from [tensorflow/playground (Deep playground)][original p
 Copyright 2016 Google Inc. All Rights Reserved.  
 Licensed under the Apache License, Version 2.0.
 
-[AIの遊び場 page]: https://code4fukui.github.io/playground/
-[playground page]: https://deepinsider.github.io/playground/
-[original page]: https://github.com/tensorflow/playground
+AIの遊び場 page: https://code4fukui.github.io/playground/  
+playground page https://deepinsider.github.io/playground/  
+original page: https://github.com/tensorflow/playground  
